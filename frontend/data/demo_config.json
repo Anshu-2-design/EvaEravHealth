@@ -1,0 +1,27 @@
+{
+  "_description": "Demo/test fill configuration and expected scores",
+  "demo_fill_config": {
+    "description": "Standard demo patient — moderate severity for testing",
+    "usage": "Patient Portal → Continue as Guest → Accept All & Begin → ⚡ Demo Fill button",
+    "patient": {
+      "name": "Demo Patient",
+      "age": 48,
+      "city": "Gurugram",
+      "stage": "Menopause (<1yr)",
+      "prakriti": "Vata-Pitta",
+      "vikriti": "Vata_Pitta_excess"
+    },
+    "expected_scores": {
+      "MENQOL_vasomotor": 11.4,
+      "MENQOL_physical": 8.6,
+      "MENQOL_psychosocial": 11.4,
+      "MENQOL_sexual": 8.6,
+      "PHQ9": 12,
+      "GAD7": 10,
+      "PSS8": 18,
+      "ISI": 10,
+      "composite_approximate": 70,
+      "band": "Severe"
+    }
+  }
+}

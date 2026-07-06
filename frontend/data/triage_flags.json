@@ -1,0 +1,157 @@
+{
+  "_description": "Critical safety flags and triage action protocols",
+  "critical_flags": {
+    "description": "Independent safety counter, separate from composite score",
+    "priority_levels": {
+      "1": "Immediate same-day action required",
+      "2": "Urgent within 1 week",
+      "3": "Risk awareness — discuss at next appointment"
+    },
+    "flags": [
+      {
+        "code": "PSY-01",
+        "label": "Suicidal ideation (PHQ-9 item 9 > 0)",
+        "condition": "phq_8 > 0",
+        "priority": 1
+      },
+      {
+        "code": "RF-01",
+        "label": "Abnormal uterine/vaginal bleeding",
+        "condition": "rf1 === 1",
+        "priority": 1
+      },
+      {
+        "code": "RF-03",
+        "label": "Breast change reported",
+        "condition": "rf3 === 1",
+        "priority": 1
+      },
+      {
+        "code": "RF-02",
+        "label": "Frequent pelvic pain",
+        "condition": "rf2 === 2 (Frequently)",
+        "priority": 2
+      },
+      {
+        "code": "WRB-SPO2-CRIT",
+        "label": "SpO2 critically low (<90%)",
+        "condition": "avg_spo2 < 90",
+        "priority": 1
+      },
+      {
+        "code": "WRB-SPO2-LOW",
+        "label": "SpO2 below normal (<95%)",
+        "condition": "avg_spo2 < 95",
+        "priority": 2
+      },
+      {
+        "code": "WRB-RHR",
+        "label": "Tachycardia (>100bpm)",
+        "condition": "avg_rhr > 100",
+        "priority": 1
+      },
+      {
+        "code": "CMX-HD",
+        "label": "Heart Disease — Uncontrolled",
+        "condition": "comorbidities.Heart Disease === 'Uncontrolled'",
+        "priority": 1
+      },
+      {
+        "code": "CMX-DM",
+        "label": "Diabetes — Uncontrolled",
+        "condition": "comorbidities.Diabetes === 'Uncontrolled'",
+        "priority": 2
+      },
+      {
+        "code": "CMX-HTN",
+        "label": "Hypertension — Uncontrolled",
+        "condition": "comorbidities.Hypertension === 'Uncontrolled'",
+        "priority": 2
+      },
+      {
+        "code": "FAM-CA",
+        "label": "Family hx: breast/ovarian cancer",
+        "condition": "fam_breast_cancer OR fam_ovarian_cancer",
+        "priority": 3
+      },
+      {
+        "code": "FAM-CVD",
+        "label": "Family hx: heart disease/stroke",
+        "condition": "fam_cvd",
+        "priority": 3
+      }
+    ]
+  },
+  "triage_actions": {
+    "psychiatric_alert": {
+      "icon": "🆘",
+      "title": "Immediate Mental Health Support",
+      "bookable": true,
+      "cta_phone": "+91 80690 50000"
+    },
+    "psychologist_referral": {
+      "icon": "🧠",
+      "title": "Expert Referral — Psychologist",
+      "bookable": true,
+      "cta_phone": "+91 80690 50000"
+    },
+    "gynecology_referral": {
+      "icon": "👩‍⚕️",
+      "title": "Expert Referral — Gynaecologist",
+      "bookable": true,
+      "cta_phone": "+91 80690 50000"
+    },
+    "gurugram_clinic": {
+      "icon": "🏥",
+      "title": "EvaEraHealth Clinic — Gurugram",
+      "bookable": true,
+      "cta_phone": "+91 80690 50000"
+    },
+    "sexual_therapy_pathway": {
+      "icon": "💜",
+      "title": "Sexual Therapy Pathway",
+      "bookable": true,
+      "cta_phone": "+91 80690 50000"
+    },
+    "sexual_wellbeing_program": {
+      "icon": "🌺",
+      "title": "Sexual Wellness Programme",
+      "bookable": false
+    },
+    "relationship_counselling": {
+      "icon": "💑",
+      "title": "Relationship Counselling",
+      "bookable": false
+    },
+    "sleep_recovery_program": {
+      "icon": "🌙",
+      "title": "Sleep Recovery Programme",
+      "bookable": false
+    },
+    "stress_management_program": {
+      "icon": "🧘",
+      "title": "Stress Management Programme",
+      "bookable": false
+    },
+    "recommend_menopause_program": {
+      "icon": "🌸",
+      "title": "Menopause Wellness Programme",
+      "bookable": false
+    },
+    "exercise_program": {
+      "icon": "🏃‍♀️",
+      "title": "Movement & Exercise",
+      "bookable": false
+    },
+    "nutrition_guidance": {
+      "icon": "🥗",
+      "title": "Nutrition & Diet",
+      "bookable": false
+    },
+    "activate_psychosexual_module": {
+      "icon": "💭",
+      "title": "Psychosexual Wellbeing Support",
+      "bookable": false
+    }
+  }
+}

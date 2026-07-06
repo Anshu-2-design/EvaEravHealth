@@ -1,0 +1,301 @@
+{
+  "_description": "Clinical instruments (MenQOL, PHQ-9, GAD-7, PSS-8, ISI, FSFI)",
+  "instruments": {
+    "MenQOL": {
+      "full_name": "Modified Menopause-Specific Quality of Life Questionnaire",
+      "reference": "Heinemann et al. 1996",
+      "domains": {
+        "vasomotor": {
+          "items": [
+            "mq_v1",
+            "mq_v2",
+            "mq_v3",
+            "mq_v4",
+            "mq_v5",
+            "mq_v6"
+          ],
+          "max_raw": 48,
+          "output_range": "0-20"
+        },
+        "physical": {
+          "items": [
+            "mq_p1",
+            "mq_p2",
+            "mq_p3",
+            "mq_p4",
+            "mq_p5",
+            "mq_p6",
+            "mq_p7",
+            "mq_p8"
+          ],
+          "max_raw": 64,
+          "output_range": "0-20"
+        },
+        "psychosocial": {
+          "items": [
+            "mq_ps1",
+            "mq_ps2",
+            "mq_ps3",
+            "mq_ps4",
+            "mq_ps5",
+            "mq_ps6",
+            "mq_ps7"
+          ],
+          "max_raw": 56,
+          "output_range": "0-20"
+        },
+        "sexual": {
+          "items": [
+            "mq_s1",
+            "mq_s2",
+            "mq_s3"
+          ],
+          "max_raw": 24,
+          "output_range": "0-20"
+        }
+      },
+      "scale": "1=Not at all, 8=Extremely",
+      "scoring": "domain_score = max(0, sum - baseline) / (max_raw - baseline) × 20"
+    },
+    "PHQ-9": {
+      "full_name": "Patient Health Questionnaire-9",
+      "reference": "Kroenke & Spitzer 2001",
+      "items": [
+        "phq_0",
+        "phq_1",
+        "phq_2",
+        "phq_3",
+        "phq_4",
+        "phq_5",
+        "phq_6",
+        "phq_7",
+        "phq_8"
+      ],
+      "range": "0-27",
+      "scale": "0=Not at all, 3=Nearly every day",
+      "bands": {
+        "Minimal": "0-4",
+        "Mild": "5-9",
+        "Moderate": "10-14",
+        "Mod-Severe": "15-19",
+        "Severe": "20-27"
+      },
+      "critical_item": "phq_8 (item 9 — suicidal ideation, any score >0 = hard stop)"
+    },
+    "GAD-7": {
+      "full_name": "Generalised Anxiety Disorder Scale-7",
+      "reference": "Spitzer et al. 2006",
+      "items": [
+        "gad_0",
+        "gad_1",
+        "gad_2",
+        "gad_3",
+        "gad_4",
+        "gad_5",
+        "gad_6"
+      ],
+      "range": "0-21",
+      "scale": "0=Not at all, 3=Nearly every day",
+      "bands": {
+        "Minimal": "0-4",
+        "Mild": "5-9",
+        "Moderate": "10-14",
+        "Severe": "15-21"
+      }
+    },
+    "PSS-8": {
+      "full_name": "Perceived Stress Scale-8",
+      "reference": "Cohen & Williamson 1988; Warttig et al. 2013 (bands)",
+      "items": [
+        "pss_0",
+        "pss_1",
+        "pss_2",
+        "pss_3",
+        "pss_4",
+        "pss_5",
+        "pss_6",
+        "pss_7"
+      ],
+      "range": "0-32",
+      "scale": "0=Never, 4=Very Often",
+      "reverse_items": [
+        3,
+        4,
+        6,
+        7
+      ],
+      "reverse_formula": "score = 4 - raw_response",
+      "bands": {
+        "Low": "0-11",
+        "Moderate": "12-21",
+        "High": "22-32"
+      },
+      "bands_reference": "Warttig et al. 2013 UK validation"
+    },
+    "ISI": {
+      "full_name": "Insomnia Severity Index",
+      "reference": "Bastien et al. 2001",
+      "items": [
+        "isi_0",
+        "isi_1",
+        "isi_2",
+        "isi_3",
+        "isi_4",
+        "isi_5",
+        "isi_6"
+      ],
+      "range": "0-28",
+      "bands": {
+        "None": "0-7",
+        "Subthreshold": "8-14",
+        "Moderate": "15-21",
+        "Severe": "22-28"
+      }
+    },
+    "FSFI": {
+      "full_name": "Female Sexual Function Index",
+      "reference": "Rosen et al. 2000 (J Sex Marital Ther 26:191-208)",
+      "items": [
+        "fsfi_1",
+        "fsfi_2",
+        "fsfi_3",
+        "fsfi_4",
+        "fsfi_5",
+        "fsfi_6",
+        "fsfi_7",
+        "fsfi_8",
+        "fsfi_9",
+        "fsfi_10",
+        "fsfi_11",
+        "fsfi_12",
+        "fsfi_13",
+        "fsfi_14",
+        "fsfi_15",
+        "fsfi_16",
+        "fsfi_17",
+        "fsfi_18",
+        "fsfi_19"
+      ],
+      "range": "2.0-36.0",
+      "dysfunction_cutoff": 26.55,
+      "dysfunction_reference": "Wiegel et al. 2005",
+      "domains": {
+        "desire": {
+          "items": [
+            "fsfi_1",
+            "fsfi_2"
+          ],
+          "scale": "1-5",
+          "multiplier": 0.6,
+          "cutoff": 3.6,
+          "floor": 1
+        },
+        "arousal": {
+          "items": [
+            "fsfi_3",
+            "fsfi_4",
+            "fsfi_5",
+            "fsfi_6"
+          ],
+          "scale": "0-5",
+          "multiplier": 0.3,
+          "cutoff": 3.9,
+          "floor": 0
+        },
+        "lubrication": {
+          "items": [
+            "fsfi_7",
+            "fsfi_8",
+            "fsfi_9",
+            "fsfi_10"
+          ],
+          "scale": "0-5",
+          "multiplier": 0.3,
+          "cutoff": 4.1,
+          "floor": 0
+        },
+        "orgasm": {
+          "items": [
+            "fsfi_11",
+            "fsfi_12",
+            "fsfi_13"
+          ],
+          "scale": "0-5",
+          "multiplier": 0.4,
+          "cutoff": 3.9,
+          "floor": 0
+        },
+        "satisfaction": {
+          "items": [
+            "fsfi_14",
+            "fsfi_15",
+            "fsfi_16"
+          ],
+          "scale_note": "items 14,15 scale 1-5 (floor=1); item 16 scale 0-5",
+          "multiplier": 0.4,
+          "cutoff": 3.8
+        },
+        "pain": {
+          "items": [
+            "fsfi_17",
+            "fsfi_18",
+            "fsfi_19"
+          ],
+          "scale": "0-5",
+          "multiplier": 0.4,
+          "cutoff": 3.8,
+          "floor": 0
+        }
+      },
+      "severity_bands": {
+        "Normal": ">26.55",
+        "Mild Dysfunction": "20.01-26.55",
+        "Moderate Dysfunction": "15.01-20",
+        "Severe Dysfunction": "0-15"
+      },
+      "note": "0 in arousal/lubrication/orgasm/pain = no sexual activity in past 4 weeks (valid). Items 1,2,14,15 floor at 1."
+    },
+    "FSDSR": {
+      "full_name": "Female Sexual Distress Scale-Revised (13 items)",
+      "reference": "DeRogatis et al. 2008",
+      "items": [
+        "fsdsr_0",
+        "fsdsr_1",
+        "fsdsr_2",
+        "fsdsr_3",
+        "fsdsr_4",
+        "fsdsr_5",
+        "fsdsr_6",
+        "fsdsr_7",
+        "fsdsr_8",
+        "fsdsr_9",
+        "fsdsr_10",
+        "fsdsr_11",
+        "fsdsr_12"
+      ],
+      "range": "0-52",
+      "bands": {
+        "No Distress": "0-10",
+        "Mild": "11-19",
+        "Moderate": "20-27",
+        "Severe": "28-52"
+      }
+    },
+    "MCSS": {
+      "full_name": "Maudsley Couple Satisfaction Scale",
+      "items": [
+        "mcss_1",
+        "mcss_2",
+        "mcss_3",
+        "mcss_4",
+        "mcss_5"
+      ],
+      "range": "5-25",
+      "bands": {
+        "Poor": "5-8",
+        "Fair": "9-14",
+        "Good": "15-25"
+      }
+    }
+  }
+}

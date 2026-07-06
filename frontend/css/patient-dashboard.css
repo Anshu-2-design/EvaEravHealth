@@ -1,0 +1,125 @@
+/* MOVED verbatim from patient-dashboard.js _pdStyles() */
+
+.pd-wrap{min-height:100vh;background:#F1F5F9;font-family:'DM Sans',sans-serif;color:#0F1E3C;font-size:13px}
+.pd-nav{background:#0F1E3C;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.pd-brand{font-size:15px;font-weight:800;color:#fff}
+.pd-brand span:first-of-type{color:#F9A8C9}
+.pd-brand-tag{font-size:9px;font-weight:700;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:2px 6px;margin-left:6px;color:rgba(255,255,255,.55);vertical-align:middle}
+.pd-nav-actions{display:flex;align-items:center;gap:8px}
+.pd-btn-retake{padding:6px 14px;background:#C0305A;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
+.pd-btn-signout{padding:6px 12px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:8px;font-size:11px;color:rgba(255,255,255,.55);cursor:pointer}
+.pd-welcome{background:linear-gradient(135deg,#0F1E3C,#1A2F52);padding:16px 20px 14px;position:relative;overflow:hidden}
+.pd-welcome-name{font-size:20px;font-weight:800;color:#fff;margin-bottom:2px;position:relative;z-index:1}
+.pd-welcome-sub{font-size:12px;color:rgba(255,255,255,.4);position:relative;z-index:1}
+.pd-pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;position:relative;z-index:1}
+.pd-pill{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.7);font-weight:600}
+.pd-comp-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;position:relative;z-index:1}
+.pd-comp-label{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:2px}
+.pd-comp-score{font-size:44px;font-weight:900;line-height:1}
+.pd-comp-band{font-size:15px;font-weight:700;margin-top:2px}
+.pd-comp-bar-wrap{background:rgba(255,255,255,.1);border-radius:4px;height:6px;overflow:hidden}
+.pd-comp-bar{height:100%;border-radius:4px;transition:width .4s}
+.pd-comp-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:6px}
+#patient-dashboard-screen .pd-tabs-row{display:flex;background:#fff;border-bottom:1.5px solid #E2E8F0;overflow-x:auto;padding:0 14px;position:sticky;top:48px;z-index:40}
+#patient-dashboard-screen .pd-tab{padding:11px 13px;font-size:12px;font-weight:600;color:#64748B;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .15s}
+#patient-dashboard-screen .pd-tab.active{color:#C0305A;border-bottom-color:#C0305A}
+#patient-dashboard-screen .pd-panels{background:#F1F5F9}
+#patient-dashboard-screen .pd-panel{display:none}
+#patient-dashboard-screen .pd-body{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.pd-card{background:#fff;border:1px solid #E2E8F0;border-radius:14px;overflow:hidden}
+.pd-card-hdr{padding:11px 14px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between}
+.pd-card-title{font-size:13px;font-weight:700;color:#0F1E3C}
+.pd-card-body{padding:12px 14px}
+.pd-badge-rose{font-size:11px;color:#C0305A;font-weight:700}
+.pd-domain-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pd-dm{background:#F1F5F9;border-radius:10px;padding:10px 12px}
+.pd-dm-label{font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.pd-dm-val{font-size:20px;font-weight:800}
+.pd-dm-max{font-size:11px;color:#64748B;font-weight:400}
+.pd-dm-band{font-size:10px;font-weight:700;margin-top:2px}
+.pd-mini-bar{height:4px;background:#E2E8F0;border-radius:2px;overflow:hidden;margin-top:6px}
+.pd-mini-fill{height:100%;border-radius:2px}
+
+.pd-loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  flex-direction: column;
+  gap: 12px;
+  color: #64748B;
+}
+.pd-loading-wrap__icon { font-size: 28px; animation: pdSpin 1s linear infinite; display: inline-block; }
+@keyframes pdSpin { to { transform: rotate(360deg); } }
+
+.step-loading { color: #64748B; font-size: 13px; text-align: center; padding: 20px; }
+
+/* MOVED from patient-dashboard.js — panel sub-templates */
+.pd-comp-meta--spaced { margin-top: 4px; }
+.pd-score-row__label { font-size: 12px; color: #0F1E3C; padding: 8px 10px; }
+.pd-score-row__score { padding: 8px 10px; }
+.pd-score-row__bar { padding: 8px 10px; }
+.pd-score-row__band { font-size: 11px; font-weight: 700; padding: 8px 10px; }
+.pd-scores-table { width: 100%; border-collapse: collapse; }
+.pd-scores-th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #64748B; background: #F1F5F9; padding: 7px 10px; text-align: left; }
+.pd-triage-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #E2E8F0; }
+.pd-triage-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.pd-triage-action { font-size: 12px; font-weight: 700; color: #0F1E3C; text-transform: capitalize; }
+.pd-triage-desc { font-size: 11px; color: #64748B; margin-top: 1px; }
+.pd-triage-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+.pd-care-cards { display: flex; flex-direction: column; gap: 10px; }
+.pd-care-card { border-radius: 12px; padding: 13px 15px; }
+.pd-care-card__hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.pd-care-card__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.pd-care-card__title { font-size: 13px; font-weight: 700; color: #0F1E3C; text-transform: capitalize; flex: 1; }
+.pd-care-card__badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+.pd-care-card__desc { font-size: 12px; color: #64748B; padding-left: 16px; }
+.pd-care-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.pd-care-contact { text-align: center; padding: 12px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 13px; display: block; width: 100%; border: none; cursor: pointer; font-family: inherit; box-sizing: border-box; }
+.pd-care-contact:disabled { opacity: 0.7; cursor: wait; }
+.pd-care-contact--display { cursor: default; pointer-events: none; user-select: text; }
+.pd-care-contact--phone { background: #C0305A; color: #fff; }
+.pd-care-contact--email { background: rgba(0,188,212,.1); color: #0B7B74; border: 1px solid rgba(11,123,116,.3); }
+.pd-appt-item { padding: 9px 0; border-bottom: 1px solid #E2E8F0; }
+.pd-appt-item__row { display: flex; align-items: center; gap: 10px; }
+.pd-appt-date { width: 40px; height: 40px; background: #F1F5F9; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+.pd-appt-date__day { font-size: 15px; font-weight: 800; color: #0F1E3C; line-height: 1; }
+.pd-appt-date__mon { font-size: 9px; font-weight: 700; color: #64748B; }
+.pd-appt-item__info { flex: 1; }
+.pd-appt-item__name { font-size: 12px; font-weight: 700; color: #0F1E3C; }
+.pd-appt-item__meta { font-size: 11px; color: #64748B; }
+.pd-appt-item__status { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+.pd-wear-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #E2E8F0; }
+.pd-wear-row__label { font-size: 12px; color: #64748B; width: 120px; flex-shrink: 0; }
+.pd-wear-row__val { font-size: 13px; font-weight: 700; color: #0F1E3C; flex: 1; }
+.pd-wear-row__badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+.pd-wear-corr { background: #FFF7ED; border: 1px solid #FCD34D; border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+.pd-wear-corr__title { font-size: 11px; font-weight: 700; color: #92400E; margin-bottom: 5px; }
+.pd-wear-corr__item { font-size: 11px; color: #78350F; padding: 2px 0; }
+.pd-hcp-note-by { font-size: 11px; font-weight: 700; color: #0B7B74; margin-bottom: 6px; }
+.pd-hcp-note-body { background: rgba(0,188,212,.05); border: 1px solid rgba(0,188,212,.2); border-radius: 10px; padding: 12px; font-size: 12px; color: #334155; line-height: 1.6; white-space: pre-wrap; }
+.pd-retake-cta { background: linear-gradient(135deg,#0F1E3C,#1A2F52); margin: 28px 16px 32px; border-radius: 14px; padding: 18px; text-align: center; }
+.pd-retake-cta__title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.pd-retake-cta__sub { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 14px; }
+.pd-retake-cta__btn { padding: 10px 24px; background: #C0305A; color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.pd-empty { text-align: center; padding: 40px; color: #64748B; font-size: 13px; }
+.pd-book-btn { width: 100%; padding: 12px; background: #C0305A; color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.pd-card-meta { font-size: 11px; color: #64748B; }
+.pd-card-body--tight { padding-top: 4px; }
+.pd-card--spaced { margin-top: 12px; }
+.pd-mini-bar--fixed { width: 72px; }
+.pd-scores-val { font-size: 14px; font-weight: 800; }
+.pd-scores-max { font-size: 10px; color: #64748B; }
+.pd-appt-actions { margin-top: 10px; padding-top: 10px; border-top: 1px solid #F1F5F9; }
+.pd-appt-actions__hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.pd-appt-actions__label { font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .5px; }
+.pd-appt-actions__hint { font-size: 10px; color: #B45309; font-weight: 600; }
+.pd-appt-actions__locked { font-size: 10px; color: #DC2626; font-weight: 600; }
+.pd-appt-actions__hint.is-hidden,
+.pd-appt-actions__locked.is-hidden { display: none; }
+.pd-appt-actions__btns { display: flex; gap: 7px; flex-wrap: wrap; }
+.pd-appt-btn { padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1.5px solid; }
+.pd-appt-btn--cancel { background: #FEF2F2; border-color: #FECACA; color: #DC2626; }
+.pd-appt-btn--reschedule { background: #F0FDF4; border-color: #86EFAC; color: #166534; }
+.pd-appt-btn--mode { background: #F0F9FF; border-color: #BAE6FD; color: #0369A1; }
+.pd-appt-btn.is-disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }

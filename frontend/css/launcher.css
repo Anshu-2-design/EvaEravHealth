@@ -1,0 +1,126 @@
+/* Launcher overlay + shared utility */
+.is-hidden {
+  display: none;
+}
+
+.int-launcher {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0F1E3C, #1A2F52 50%, #2D1B5E);
+  overflow: hidden;
+}
+
+.int-launcher__bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(192, 48, 90, .3), transparent 60%), radial-gradient(ellipse 50% 60% at 15% 80%, rgba(11, 123, 116, .25), transparent 50%);
+}
+
+.int-launcher__title {
+  position: relative;
+  z-index: 1;
+  font-size: 40px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.int-launcher__subtitle {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  color: rgba(255, 255, 255, .5);
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.int-launcher__cards {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.int-launcher__card {
+  width: 190px;
+  background: rgba(255, 255, 255, .08);
+  border: 1.5px solid rgba(255, 255, 255, .15);
+  border-radius: 18px;
+  padding: 26px 18px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.int-launcher__card:hover {
+  background: rgba(255, 255, 255, .15);
+}
+
+.int-launcher__card-icon {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.int-launcher__card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.int-launcher__card-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, .5);
+  line-height: 1.5;
+}
+
+.int-launcher__card-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, .15);
+  color: rgba(255, 255, 255, .7);
+}
+
+.int-launcher__footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, .3);
+}
+
+.int-launcher__demo-wrap {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.int-launcher__demo-btn {
+  background: rgba(147, 197, 253, 0.12);
+  border: 1px solid rgba(147, 197, 253, 0.3);
+  color: #93C5FD;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.int-launcher__demo-hint {
+  font-size: 10px;
+  color: rgba(255, 255, 255, .25);
+  margin-top: 5px;
+}

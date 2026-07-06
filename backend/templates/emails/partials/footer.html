@@ -1,0 +1,22 @@
+<style>
+
+  .email-footer-link{text-decoration:none}
+
+  .email-footer-link--brand{color:#880E4F}
+
+  .email-footer-link--admin{color:#1E3A5F}
+
+</style>
+
+<div style="background:#f9fafb;padding:12px;text-align:center;font-size:11px;color:#9ca3af">
+
+  {{ footer_text }}
+
+  {% if support_email %}
+
+  · <a href="mailto:{{ support_email }}" class="email-footer-link {{ footer_link_class or 'email-footer-link--brand' }}">{{ support_email }}</a>
+
+  {% endif %}
+
+</div>
+

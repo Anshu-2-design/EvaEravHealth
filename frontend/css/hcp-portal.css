@@ -1,0 +1,536 @@
+/* ─── HCP AUTH ─────────────────────────────────────── */
+#hcp-auth-screen {
+  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 100%);
+  padding: 60px 20px;
+  min-height: 100vh;
+}
+
+.hcp-auth-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 36px;
+  max-width: 400px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+/* Email + password login (tpl-hcp-auth-card) — moved from hcp-portal-auth.js */
+#hcp-auth-screen .hcp-auth-card-inner {
+  text-align: left;
+}
+
+#hcp-auth-screen .hcp-auth-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  margin-bottom: 4px;
+  text-align: center;
+  color: #fff;
+}
+
+#hcp-auth-screen .hcp-auth-sub {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+#hcp-auth-screen .hcp-auth-back {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+#hcp-auth-screen .hcp-auth-back:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#hcp-auth-screen .hcp-login-err {
+  background: rgba(153, 27, 27, 0.25);
+  border: 1px solid rgba(153, 27, 27, 0.5);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #FCA5A5;
+  margin-bottom: 12px;
+}
+
+#hcp-auth-screen .hcp-auth-field {
+  margin-bottom: 12px;
+}
+
+#hcp-auth-screen .hcp-auth-field--pass {
+  margin-bottom: 20px;
+}
+
+#hcp-auth-screen .hcp-auth-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#hcp-auth-screen .hcp-auth-field input {
+  width: 100%;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+  color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+#hcp-auth-screen .hcp-auth-field input:focus {
+  border-color: rgba(192, 48, 90, 0.7);
+}
+
+#hcp-auth-screen .hcp-auth-field input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+#hcp-auth-screen .hcp-pass-wrap {
+  position: relative;
+}
+
+#hcp-auth-screen .hcp-pass-wrap input {
+  padding-right: 40px;
+}
+
+#hcp-auth-screen .hcp-pass-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.5;
+  user-select: none;
+  line-height: 1;
+}
+
+#hcp-auth-screen .hcp-pass-toggle:hover {
+  opacity: 0.85;
+}
+
+#hcp-auth-screen .hcp-auth-submit,
+#hcp-auth-screen #hcp-login-btn.btn-hcp {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #C0305A, #9C1B43);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0;
+}
+
+#hcp-auth-screen .hcp-auth-submit:disabled,
+#hcp-auth-screen #hcp-login-btn.btn-hcp:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+#hcp-auth-screen .hcp-auth-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-hcp {
+  width: 100%;
+  background: linear-gradient(135deg, var(--teal), #00897B);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* ─── HCP PORTAL SCREEN — full bleed, no constraints ── */
+#hcp-portal-screen {
+  background: #0F1923;
+  min-height: 100vh;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide the legacy hcp-header and hcp-tabs —
+   our JS tab-strip replaces them */
+#hcp-portal-screen .hcp-header,
+#hcp-portal-screen .hcp-tabs {
+  display: none !important;
+}
+
+/* hcp-content fills all remaining space, zero padding */
+.hcp-content {
+  flex: 1;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* ─── PATIENT LIST ─────────────────────────────────── */
+.pl-search {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 9px 14px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.pl-search::placeholder { color: rgba(255,255,255,0.25); }
+.pl-search:focus { border-color: rgba(0,188,212,0.5); }
+
+.patient-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.15s;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-left: 3px solid transparent;
+}
+.patient-item:hover { background: rgba(255,255,255,0.04); }
+.patient-item.active {
+  background: rgba(0,188,212,0.09);
+  border-left-color: #00BCD4;
+}
+
+.pi-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; flex-shrink: 0;
+  background: linear-gradient(135deg,rgba(0,188,212,0.25),rgba(0,137,123,0.25));
+  color: #00BCD4;
+}
+.pi-info { flex: 1; min-width: 0; }
+.pi-name {
+  font-size: 13px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+}
+.pi-meta { font-size: 11px; color: rgba(255,255,255,0.38); margin-top: 2px; }
+.pi-score {
+  font-size: 11px; font-weight: 800;
+  padding: 2px 7px; border-radius: 20px; flex-shrink: 0;
+}
+.pi-score.critical { background: rgba(183,28,28,0.3);  color: #EF9A9A; }
+.pi-score.severe   { background: rgba(230,81,0,0.3);   color: #FFCC80; }
+.pi-score.moderate { background: rgba(255,179,0,0.2);  color: #FFE082; }
+.pi-score.mild     { background: rgba(46,125,50,0.25); color: #A5D6A7; }
+.pi-flag { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.pi-flag.red    { background: #EF5350; box-shadow: 0 0 5px rgba(239,83,80,0.7); }
+.pi-flag.orange { background: #FF9800; box-shadow: 0 0 5px rgba(255,152,0,0.5); }
+.pi-flag.green  { background: #4CAF50; }
+
+.pi-badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 3px;
+}
+.hcp-pi-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.06);
+  white-space: nowrap;
+}
+.hcp-pi-badge--crisis {
+  background: rgba(183,28,28,0.25);
+  color: #EF9A9A;
+}
+.hcp-pi-badge--flag {
+  background: rgba(255,152,0,0.2);
+  color: #FFCC80;
+}
+
+/* Patient list header — moved from hcp-portal.js inline styles */
+.hcp-pl-hdr {
+  background: linear-gradient(135deg, #0D1B2A, #1B2B3A);
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.hcp-pl-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.hcp-pl-stat-num {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+}
+.hcp-pl-stat-num--warn { color: #FFCC80; }
+.hcp-pl-stat-num--alert { color: #EF9A9A; }
+.hcp-pl-stat-lbl {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.hcp-pl-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.hcp-pl-empty__icon { font-size: 28px; margin-bottom: 8px; }
+
+/* ─── PATIENT DETAIL ───────────────────────────────── */
+#hcp-portal-screen .pd-panel {
+  display: block;
+  background: #0F1923;
+  min-height: 100%;
+}
+#hcp-portal-screen .pd-header {
+  background: linear-gradient(135deg,#1B2B3A,#1E3347);
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+}
+.pd-header h2 {
+  font-size: 20px; font-weight: 800; color: #fff;
+  margin-bottom: 5px; font-family: "Cormorant Garamond",serif;
+}
+.pd-meta { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.pd-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+
+.tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+.tag-rose { background: rgba(233,30,140,0.2); color: #F48FB1; border: 1px solid rgba(233,30,140,0.3); }
+.tag-gold { background: rgba(255,179,0,0.2);  color: #FFE082; border: 1px solid rgba(255,179,0,0.3); }
+.tag-teal { background: rgba(0,188,212,0.2);  color: #80DEEA; border: 1px solid rgba(0,188,212,0.3); }
+
+.pd-tabs {
+  display: flex; background: #111D27;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto; padding: 0 16px;
+}
+.pd-tab {
+  padding: 11px 16px; font-size: 12px; font-weight: 600;
+  color: rgba(255,255,255,0.35); cursor: pointer;
+  border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s;
+}
+.pd-tab:hover { color: rgba(255,255,255,0.75); }
+.pd-tab.active { color: #00BCD4; border-bottom-color: #00BCD4; background: rgba(0,188,212,0.05); }
+
+.pd-body { padding: 18px 22px; }
+.pd-tab-content { display: none; }
+
+/* ─── ALERTS ───────────────────────────────────────── */
+.hcp-alert-banner {
+  background: rgba(183,28,28,0.15);
+  border: 1px solid rgba(183,28,28,0.4);
+  padding: 12px 22px; margin-bottom: 0;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.hab-icon { font-size: 18px; flex-shrink: 0; }
+.hab-body { font-size: 12px; color: #EF9A9A; line-height: 1.5; font-weight: 500; }
+
+/* ─── METRICS ──────────────────────────────────────── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+  gap: 10px; margin-bottom: 14px;
+}
+.metric-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px; padding: 12px; text-align: center;
+}
+.mc-label {
+  font-size: 10px; color: rgba(255,255,255,0.38); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px;
+}
+.mc-value { font-size: 24px; font-weight: 800; color: #fff; line-height: 1; }
+.mc-sub   { font-size: 10px; color: rgba(255,255,255,0.28); margin-top: 3px; }
+.mc-bar   { height: 4px; background: rgba(255,255,255,0.07); border-radius: 4px; margin-top: 7px; overflow: hidden; }
+.mc-bar-fill { height: 100%; border-radius: 4px; }
+
+/* ─── SCORES ───────────────────────────────────────── */
+#hcp-portal-screen .score-row,
+.pd-panel .score-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+#hcp-portal-screen .score-row:last-child,
+.pd-panel .score-row:last-child { border-bottom: none; }
+#hcp-portal-screen .score-label,
+.pd-panel .score-label { font-size: 12px; color: rgba(255,255,255,0.45); flex: 1; }
+#hcp-portal-screen .score-val,
+.pd-panel .score-val { font-size: 13px; font-weight: 700; color: #fff; text-align: right; }
+.hcp-score-unit { font-size: 10px; color: rgba(255,255,255,0.3); margin-left: 2px; }
+.hcp-score-warn { font-size: 10px; color: #FF9800; margin-left: 4px; }
+.hcp-tab1-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255,255,255,0.28);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ─── TRIAGE ───────────────────────────────────────── */
+.triage-list { display: flex; flex-direction: column; gap: 8px; }
+.triage-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 12px 15px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.triage-item.sev  { border-left: 3px solid #EF5350; background: rgba(183,28,28,0.10); }
+.triage-item.mod  { border-left: 3px solid #FF9800; background: rgba(255,152,0,0.08); }
+.triage-item.norm { border-left: 3px solid #4CAF50; background: rgba(76,175,80,0.06); }
+.ti-icon   { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.ti-body   { flex: 1; }
+.ti-action { font-size: 13px; font-weight: 700; color: #fff; text-transform: capitalize; margin-bottom: 2px; }
+.ti-rules  { font-size: 10px; color: rgba(255,255,255,0.28); }
+.ti-sev    { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+.sev  .ti-sev { background: rgba(183,28,28,0.3); color: #EF9A9A; }
+.mod  .ti-sev { background: rgba(255,152,0,0.2);  color: #FFCC80; }
+.norm .ti-sev { background: rgba(76,175,80,0.2);  color: #A5D6A7; }
+
+/* ─── DOWNLOADS ────────────────────────────────────── */
+.download-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.btn-download {
+  background: rgba(0,188,212,0.12); border: 1px solid rgba(0,188,212,0.3);
+  color: #00BCD4; border-radius: 10px; padding: 9px 16px;
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.btn-download:hover { background: rgba(0,188,212,0.22); transform: translateY(-1px); }
+
+/* ─── INSTRUMENT TABLE ─────────────────────────────── */
+.instrument-table { width: 100%; border-collapse: collapse; }
+.instrument-table th {
+  font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left;
+}
+.instrument-table td {
+  font-size: 13px; padding: 9px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04); color: rgba(255,255,255,0.7);
+}
+.instrument-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ─── SECTION BLOCKS ───────────────────────────────── */
+.section-hcp { margin-bottom: 20px; }
+.section-hcp h4 {
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6);
+  margin-bottom: 10px; padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+/* === moved from index.html inline styles === */
+/* Section 5 — HCP Auth & Portal */
+.hcp-auth-card__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.hcp-auth-card__subtitle {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 20px;
+}
+
+.hcp-auth-back-link {
+  font-size: 11px;
+  color: rgba(255, 255, 255, .4);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+#hcp-login-id.hcp-login-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 12px;
+  color: #fff;
+  width: 100%;
+  font-size: 14px;
+  outline: none;
+}
+
+#hcp-otp-section {
+  margin-top: 16px;
+}
+
+#hcp-otp-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 8px;
+}
+
+.hcp-otp-digit.hcp-otp-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 12px 0;
+  text-align: center;
+}
+
+.btn-hcp-resend {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: transparent;
+  border: 1.5px solid rgba(192, 48, 90, 0.5);
+  border-radius: 12px;
+  color: #C0305A;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-hcp-resend:hover {
+  background: rgba(192, 48, 90, 0.15);
+}
+
+.hcp-auth-card .guest-link--hcp {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hcp-guest-back {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline;
+  cursor: pointer;
+}

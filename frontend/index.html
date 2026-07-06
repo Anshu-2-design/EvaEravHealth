@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>EvaEraHealth — Adaptive Menopause Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="css/variables-base.css">
+<link rel="stylesheet" href="css/launcher.css">
+<link rel="stylesheet" href="css/auth-consent.css">
+<link rel="stylesheet" href="css/form-assessment.css">
+<link rel="stylesheet" href="css/results.css?v=3">
+<link rel="stylesheet" href="css/send-report.css">
+<link rel="stylesheet" href="css/hcp-portal.css?v=4">
+<link rel="stylesheet" href="css/admin-responsive.css">
+<link rel="stylesheet" href="css/patient-portal.css">
+<link rel="stylesheet" href="css/modals-overlays.css">
+<link rel="stylesheet" href="css/booking-wizard.css?v=2">
+<link rel="stylesheet" href="css/admin-slots.css">
+<link rel="stylesheet" href="css/patient-dashboard.css?v=5">
+<link rel="stylesheet" href="css/hcp-portal-templates.css?v=4">
+<link rel="stylesheet" href="css/print-report.css">
+<link rel="stylesheet" href="css/assessment-steps.css?v=3">
+</head>
+<body>
+
+<div id="int-launcher" class="int-launcher">
+  <div class="int-launcher__bg"></div>
+  <div class="int-launcher__title">🌸 EvaEraHealth</div>
+  <div class="int-launcher__subtitle">Integrated Platform v7 — Patient · HCP · Admin</div>
+  <div class="int-launcher__cards">
+    <div class="int-launcher__card" data-portal="patient" data-action="intEnter">
+      <div class="int-launcher__card-icon">&#x1F469;</div>
+      <div class="int-launcher__card-title">Patient Portal</div>
+      <div class="int-launcher__card-desc">Full v7 clinical assessment with MenQOL, PHQ-9, GAD-7, PSS-8, ISI, FSFI and appointment booking</div>
+      <span class="int-launcher__card-badge">No login required</span>
+    </div>
+    <div class="int-launcher__card" data-portal="hcp" data-action="intEnter">
+      <div class="int-launcher__card-icon">&#x1F468;&#x200D;&#x2695;&#xFE0F;</div>
+      <div class="int-launcher__card-title">HCP Portal</div>
+      <div class="int-launcher__card-desc">Clinical dashboard, patient assessments, triage review and consultations</div>
+      <span class="int-launcher__card-badge">Email + OTP Login</span>
+    </div>
+    <div class="int-launcher__card" data-portal="admin" data-action="intEnter">
+      <div class="int-launcher__card-icon">&#x1F527;</div>
+      <div class="int-launcher__card-title">Admin Portal</div>
+      <div class="int-launcher__card-desc">Consultants, slots, payments, compliance and analytics</div>
+      <span class="int-launcher__card-badge">Email + Password + TOTP</span>
+    </div>
+  </div>
+  <div class="int-launcher__footer">&#x1F4E1; All portals share a live data layer</div>
+  <div class="int-launcher__demo-wrap">
+    <button class="int-launcher__demo-btn" data-action="quickDemoFillFromLauncher">&#x26A1; Demo Fill &mdash; Skip to Results</button>
+    <div class="int-launcher__demo-hint">Auto-fills a moderate-severity case for testing</div>
+  </div>
+</div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">Eva<span>Era</span>Health</div>
+  <div class="nav-actions">
+    <button class="nav-btn" data-action="showScreen" data-screen="hcp-auth-screen">🩺 Clinician</button>
+    <button class="nav-btn" data-action="showScreen" data-screen="auth-screen">👤 Account</button>
+  </div>
+</nav>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen" class="screen active">
+  <div class="auth-portal-back-wrap">
+    <button class="auth-portal-back-btn" data-action="intShowLauncher">&#x2B05; Portal Selection</button>
+  </div>
+  <div class="auth-card">
+    <span class="auth-logo">🌸</span>
+    <h2>EvaEraHealth</h2>
+    <p class="auth-card__tagline">Personalised menopause care for Indian women 40–55</p>
+    <div class="auth-tab-row">
+      <div class="auth-tab active" data-action="authTab" data-tab="login">Sign In</div>
+      <div class="auth-tab" data-action="authTab" data-tab="register">Register</div>
+    </div>
+    <div id="auth-login">
+      <div class="form-group"><label>Mobile / Email</label><input type="text" id="login-id" placeholder="+91 98765 43210 or you@example.com"></div>
+      <button class="btn-auth" data-action="sendOTP" data-mode="login">Send OTP →</button>
+    </div>
+    <div id="auth-register" class="is-hidden">
+      <div class="form-group"><label>Full Name</label><input type="text" id="reg-name" placeholder="Your name"></div>
+      <div class="form-group"><label>Mobile/Email</label><input type="text" id="reg-mobile" placeholder="+91 98765 43210 or you@example.com"></div>
+      <button class="btn-auth" data-action="sendOTP" data-mode="register">Send OTP →</button>
+    </div>
+    <div id="auth-otp" class="is-hidden">
+       <p id="auth-otp-hint">OTP sent to your contact</p>
+      <div class="otp-row">
+        <input type="text" maxlength="1" class="otp-digit" data-action="otpNext">
+        <input type="text" maxlength="1" class="otp-digit" data-action="otpNext">
+        <input type="text" maxlength="1" class="otp-digit" data-action="otpNext">
+        <input type="text" maxlength="1" class="otp-digit" data-action="otpNext">
+      </div>
+      <button class="btn-auth" data-action="verifyOTP">Verify & Continue →</button>
+      <button id="patient-resend-btn" class="btn-auth-resend" data-action="resendOTP" data-portal="patient">↺ Resend OTP</button>
+    </div>
+    <div class="guest-link">or <span data-action="startGuest">continue as guest →</span></div>
+  </div>
+</div>
+
+<!-- CONSENT SCREEN -->
+<div id="consent-screen" class="screen">
+  <div class="consent-card">
+    <h2>🛡️ Your Data, Your Control</h2>
+    <p class="consent-card__intro">Please review and accept the following before proceeding. Your data is protected under DPDP Act 2023.</p>
+    <div class="consent-ai-notice">
+      <span class="consent-ai-notice__icon">🤖</span>
+      <div><div class="consent-ai-notice__title">AI-Powered Assessment — Important Notice</div>
+      <div class="consent-ai-notice__body">EvaEraHealth uses Claude AI (Anthropic) to generate personalised wellness insights. <strong>This is not a medical diagnosis.</strong> All outputs must be reviewed by a qualified clinician before any clinical decisions. By proceeding, you acknowledge this is an AI-assisted wellness tool, not a substitute for medical care.</div></div>
+    </div>
+    <div id="consent-items-container"></div>
+    <button class="btn-consent" id="btn-consent-proceed" data-action="proceedAfterConsent" disabled>Begin Assessment →</button>
+    <button class="btn-consent-demo" data-action="quickAcceptConsent">&#x26A1; Demo: Accept All &amp; Begin</button>
+    <div class="consent-rights">
+      <div class="consent-rights__hdr">
+        <span class="consent-rights__hdr-icon">⚖️</span>
+        <span class="consent-rights__hdr-title">Your Rights Under DPDP Act 2023</span>
+      </div>
+      <div class="consent-rights__grid">
+        <div class="consent-rights__item consent-rights__item--access"><div class="consent-rights__item-title consent-rights__item-title--access">✓ Right to Access</div><div class="consent-rights__item-desc">View all your stored data</div></div>
+        <div class="consent-rights__item consent-rights__item--correct"><div class="consent-rights__item-title consent-rights__item-title--correct">✓ Right to Correct</div><div class="consent-rights__item-desc">Fix inaccurate information</div></div>
+        <div class="consent-rights__item consent-rights__item--erasure"><div class="consent-rights__item-title consent-rights__item-title--erasure">✓ Right to Erasure</div><div class="consent-rights__item-desc">Delete your data on request</div></div>
+        <div class="consent-rights__item consent-rights__item--withdraw"><div class="consent-rights__item-title consent-rights__item-title--withdraw">✓ Right to Withdraw</div><div class="consent-rights__item-desc">Withdraw consent anytime</div></div>
+        <div class="consent-rights__item consent-rights__item--grievance"><div class="consent-rights__item-title consent-rights__item-title--grievance">✓ Right to Grievance</div><div class="consent-rights__item-desc">File complaints with DPO</div></div>
+        <div class="consent-rights__item consent-rights__item--nominate"><div class="consent-rights__item-title consent-rights__item-title--nominate">✓ Right to Nominate</div><div class="consent-rights__item-desc">Delegate your rights</div></div>
+      </div>
+      <div class="consent-dpo-bar">
+        <div class="consent-dpo-bar__label">Data Protection Officer</div>
+        <span class="consent-dpo-bar__email">dpo&#64;evaerahealth.in</span>
+      </div>
+    </div>
+    <p class="consent-card__footer">EvaEraHealth Clinic, Gurugram Flagship Center · DPO: <a href="mailto:dpo@evaerahealth.in">dpo@evaerahealth.in</a></p>
+  </div>
+</div>
+
+<!-- FORM SCREEN -->
+<div id="form-screen" class="screen">
+  <div class="progress-header">
+    <span id="progress-label">Step 1</span>
+    <div class="progress-header__actions">
+      <span id="progress-path-label"></span>
+      <button class="btn-demo-fill" data-action="quickDemoFill" title="Auto-fill all answers for demo testing">&#x26A1; Demo Fill</button>
+    </div>
+  </div>
+  <div class="overall-progress"><div class="overall-progress-fill overall-progress-fill--initial" id="overall-prog"></div></div>
+  <div class="step-dots-row" id="step-dots"></div>
+  <div id="steps-container"></div>
+  <div class="step-nav">
+    <button class="btn-back" id="btn-back" data-action="stepBack">← Back</button>
+    <button class="btn-next" id="btn-next" data-action="stepNext">Continue →</button>
+  </div>
+</div>
+
+<!-- GYNE HARD STOP -->
+<div id="gyne-stop-screen" class="screen">
+  <div class="hardstop-wrap">
+    <div class="hardstop-card">
+      <div id="gyne-stop-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PSYCH HARD STOP -->
+<div id="psych-stop-screen" class="screen">
+  <div class="hardstop-wrap">
+    <div class="hardstop-card">
+      <div id="psych-stop-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading-screen" class="screen">
+  <div>
+    <div class="loading-flower">🌸</div>
+    <h2>Analysing Your Health Profile</h2>
+    <p class="loading-screen__subtitle">EvaEraHealth adaptive clinical pipeline</p>
+    <div class="loading-steps">
+      <div class="ls-item">✦ &nbsp;Adaptive Assessment Engine · scoring all domains…</div>
+      <div class="ls-item">✦ &nbsp;Decision Tree Engine · branching logic check…</div>
+      <div class="ls-item">✦ &nbsp;Clinical Scoring · MenQOL · PHQ9 · GAD7 · ISI · PSS8 · FSFI…</div>
+      <div class="ls-item">✦ &nbsp;AI Clinical Engine · Driver Detection · Prakriti–Vikriti…</div>
+      <div class="ls-item">✦ &nbsp;Care Plan Generator · personalised recommendations…</div>
+    </div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-screen" class="screen"></div>
+
+<!-- HCP AUTH -->
+<div id="hcp-auth-screen" class="screen">
+  <div class="hcp-auth-card">
+    <h2 class="hcp-auth-card__title">🩺 Clinician Dashboard</h2>
+    <p class="hcp-auth-card__subtitle">EvaEraHealth Clinic, Gurugram Flagship Center</p><a class="hcp-auth-back-link" data-action="intShowLauncher">&#x2190; Back to Portal Selection</a>
+    <div class="form-group"><label>Provider Email / ID</label><input type="text" id="hcp-login-id" class="hcp-login-input" placeholder="provider@hospital.com"></div>
+    <button class="btn-hcp" data-action="hcpSendOTP">Send OTP</button>
+    <div id="hcp-otp-section" class="is-hidden">
+     <p id="hcp-otp-hint">Enter the OTP sent to your registered contact</p>
+      <div class="otp-row">
+        <input type="text" maxlength="1" class="hcp-otp-digit hcp-otp-input" data-action="hcpOtpNext">
+        <input type="text" maxlength="1" class="hcp-otp-digit hcp-otp-input" data-action="hcpOtpNext">
+        <input type="text" maxlength="1" class="hcp-otp-digit hcp-otp-input" data-action="hcpOtpNext">
+        <input type="text" maxlength="1" class="hcp-otp-digit hcp-otp-input" data-action="hcpOtpNext">
+      </div>
+      <button class="btn-hcp" id="btn-hcp-verify" data-action="hcpVerifyOTP">Verify & Enter Portal</button>
+      <button id="hcp-resend-btn" class="btn-hcp-resend" data-action="resendOTP" data-portal="hcp">↺ Resend OTP</button>
+    </div>
+    <div class="guest-link guest-link--hcp"><span class="hcp-guest-back" data-action="showScreen" data-screen="auth-screen">← Back to Patient App</span></div>
+  </div>
+</div>
+
+<!-- HCP PORTAL -->
+<div id="hcp-portal-screen" class="screen">
+  <div class="hcp-content" id="hcp-content"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-card">
+    <h3 id="modal-title">Review your answers</h3>
+    <div class="modal-summary" id="modal-summary"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-back" data-action="closeModal">← Edit</button>
+      <button class="btn-modal-confirm" data-action="confirmStep">Confirm & Continue →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ADMIN LOGIN SCREEN -->
+<div id="adm-login-screen" class="screen">
+  <div class="adm-login-shell">
+    <!-- Left: Branding panel (hidden on small screens via inline) -->
+    <div class="adm-login-brand">
+      <div class="adm-login-brand__bg"></div>
+      <div class="adm-login-brand__inner">
+        <div class="adm-login-brand__title">&#x1F338; EvaEraHealth</div>
+        <div class="adm-login-brand__subtitle">Adaptive Menopause Wellness Platform</div>
+        <div class="adm-login-brand__features">
+          <div class="adm-login-feature"><div class="adm-login-feature__icon adm-login-feature__icon--dashboard">&#x1F4CA;</div><div><div class="adm-login-feature__title">Platform Dashboard</div><div class="adm-login-feature__desc">Real-time assessments &amp; appointments</div></div></div>
+          <div class="adm-login-feature"><div class="adm-login-feature__icon adm-login-feature__icon--consultants">&#x1F469;&#x200D;&#x2695;&#xFE0F;</div><div><div class="adm-login-feature__title">Consultant Management</div><div class="adm-login-feature__desc">Roster, slots &amp; scheduling</div></div></div>
+          <div class="adm-login-feature"><div class="adm-login-feature__icon adm-login-feature__icon--payments">&#x1F4B0;</div><div><div class="adm-login-feature__title">Payment Reconciliation</div><div class="adm-login-feature__desc">Razorpay transactions &amp; GST reports</div></div></div>
+          <div class="adm-login-feature"><div class="adm-login-feature__icon adm-login-feature__icon--compliance">&#x1F512;</div><div><div class="adm-login-feature__title">DPDP 2023 Compliance</div><div class="adm-login-feature__desc">Consent logs, erasure &amp; audit trail</div></div></div>
+        </div>
+        <div class="adm-login-brand__secure">
+          &#x1F6E1; Secured with 2-Factor Authentication &nbsp;&middot;&nbsp; Corporate IP access only in production
+        </div>
+      </div>
+    </div>
+    <!-- Right: Login form -->
+    <div class="adm-login-form-panel">
+      <div class="adm-login-form-panel__inner">
+        <div class="adm-login-form__label">Admin Portal</div>
+        <!-- Step indicators -->
+        <div class="adm-login-steps">
+          <div id="adm-si1" class="adm-login-step-bar"></div>
+          <div id="adm-si2" class="adm-login-step-bar"></div>
+          <div id="adm-step-lbl">Step 1 of 2</div>
+        </div>
+        <!-- STEP 1: Email + Password -->
+        <div id="adm-s1">
+          <div class="adm-login-step__title">Welcome Back</div>
+          <div class="adm-login-step__subtitle">Sign in to the EvaEraHealth Admin Portal</div>
+          <div id="adm-e1" class="adm-login-error is-hidden">&#x26A0; Invalid email or password</div>
+          <div class="adm-login-field">
+            <label class="adm-login-field__label">Email</label>
+            <input type="email" id="adm-em" class="adm-login-input" placeholder="admin@evaerahealth.in" autocomplete="email">
+          </div>
+          <div class="adm-login-field adm-login-field--password">
+            <label class="adm-login-field__label">Password</label>
+            <input type="password" id="adm-pw" class="adm-login-input" placeholder="Your password" autocomplete="current-password">
+          </div>
+          <button class="btn-adm-primary" data-action="admVPass">Continue &#x2192;</button>
+        </div>
+        <!-- STEP 2: TOTP -->
+        <div id="adm-s2" class="is-hidden">
+          <div class="adm-login-step__title">2FA Verification</div>
+          <div id="adm-otp-hint">
+      OTP is being sent to your registered email...
+    </div>
+          <div id="adm-e2" class="adm-login-error is-hidden">&#x26A0; Invalid or expired OTP. Please Try again.</div>
+          <label class="adm-login-otp-label">OTP</label>
+          <div id="adm-otp-row">
+            <input maxlength="1" id="ao0" class="adm-otp-digit" data-action="intOTPnx" data-otp-row="adm-otp-row">
+            <input maxlength="1" id="ao1" class="adm-otp-digit" data-action="intOTPnx" data-otp-row="adm-otp-row">
+            <input maxlength="1" id="ao2" class="adm-otp-digit" data-action="intOTPnx" data-otp-row="adm-otp-row">
+            <input maxlength="1" id="ao3" class="adm-otp-digit" data-action="intOTPnx" data-otp-row="adm-otp-row">
+            <input maxlength="1" id="ao4" class="adm-otp-digit" data-action="intOTPnx" data-otp-row="adm-otp-row">
+            <input maxlength="1" id="ao5" class="adm-otp-digit" data-action="intOTPnx" data-otp-row="adm-otp-row">
+          </div>
+          <button class="btn-adm-primary" data-action="admVTOTP">Verify &amp; Enter Portal &#x2192;</button>
+          <button id="adm-resend-btn" data-action="admResendOTP">
+      ↺ Resend OTP
+    </button>
+          <div class="adm-login-back-row">
+            <button class="btn-adm-back-step" data-action="admBackToStep1">&#x2190; Back</button>
+            <div class="adm-login-otp-hint-box">&#x1F511;  📧 OTP sent to your admin email. <strong>Check your inbox</strong></div>
+          </div>
+        </div>
+        <button class="btn-adm-portal-back" data-action="intShowLauncher">&#x2190; Portal Selection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PORTAL SCREEN -->
+<div id="adm-portal-screen" class="screen">
+  <div class="adm-portal-shell">
+    <div class="adm-portal-header">
+      <div class="adm-portal-header__brand">
+        <span class="adm-portal-header__title">&#x1F338; EvaEraHealth</span>
+        <span class="adm-portal-header__badge">Admin Portal</span>
+      </div>
+      <div class="adm-portal-header__actions">
+        <div class="adm-portal-header__user">
+          <div class="adm-portal-header__avatar">SA</div>
+          <span class="adm-portal-header__username">Super Admin</span>
+        </div>
+        <span class="adm-portal-header__pulse"></span>
+        <button class="btn-adm-switch-portal" data-action="intShowLauncher">&#x2B05; Switch Portal</button>
+      </div>
+    </div>
+    <div class="adm-portal-body">
+      <!-- Sidebar -->
+      <div class="adm-sidebar">
+        <div class="adm-sidebar__section-label">Overview</div>
+        <div class="adm-nav on" data-adm-mod="dashboard"><span>&#x1F4CA;</span>&nbsp;Dashboard</div>
+        <div class="adm-sidebar__section-label">Operations</div>
+        <div class="adm-nav" data-adm-mod="consultants"><span>&#x1F469;&#x200D;&#x2695;&#xFE0F;</span>&nbsp;Consultants</div>
+        <div class="adm-nav" data-adm-mod="slots"><span>&#x1F4C5;</span>&nbsp;Slot Management</div>
+        <div class="adm-nav" data-adm-mod="appts"><span>&#x1F5D3;&#xFE0F;</span>&nbsp;Appointments&nbsp;<span id="adm-apt-badge">0</span></div>
+        <div class="adm-sidebar__section-label">Finance</div>
+        <div class="adm-nav" data-adm-mod="payments"><span>&#x1F4B0;</span>&nbsp;Payments</div>
+        <div class="adm-sidebar__section-label">Compliance</div>
+        <div class="adm-nav" data-adm-mod="compliance"><span>&#x1F512;</span>&nbsp;DPDP Compliance</div>
+        <div class="adm-sidebar__footer">
+          <div class="adm-sidebar__footer-user">
+            <div class="adm-sidebar__footer-avatar">SA</div>
+            <div>
+              <div class="adm-sidebar__footer-name">Super Admin</div>
+              <div class="adm-sidebar__footer-email"><a href="mailto:admin@evaerahealth.in">admin@evaerahealth.in</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Main content -->
+      <div class="adm-main">
+        <!-- Dashboard -->
+        <div id="admmod-dashboard" class="adm-mod on">
+          <div class="adm-mod-hdr">
+            <div class="adm-mod-title">Platform Dashboard</div>
+            <span class="adm-portal-header__pulse"></span>
+          </div>
+          <div class="adm-stat-grid">
+            <div class="adm-stat adm-stat--rose"><div class="adm-stat__label">Assessments</div><div class="adm-stat__value" id="adms-as">0</div></div>
+            <div class="adm-stat adm-stat--teal"><div class="adm-stat__label">Appointments</div><div class="adm-stat__value" id="adms-ap">0</div></div>
+            <div class="adm-stat adm-stat--gold"><div class="adm-stat__label">Revenue</div><div class="adm-stat__value" id="adms-rv">Rs 0</div></div>
+            <div class="adm-stat adm-stat--green"><div class="adm-stat__label">Consultants</div><div class="adm-stat__value" id="adms-cn">0</div></div>
+          </div>
+          <div class="adm-card adm-card--spaced">
+            <div class="adm-card-hdr">
+              <div class="adm-card-hdr__title">Live Activity Feed</div>
+              <span class="adm-portal-header__pulse"></span>
+            </div>
+            <div class="adm-feed-body" id="adm-feed-b"><div class="adm-feed-empty">Waiting for activity...</div></div>
+          </div>
+          <div class="adm-card">
+            <div class="adm-card-hdr">
+              <div class="adm-card-hdr__title">Recent Appointments</div>
+              <button class="btn-adm-view-all" data-action="showAdmMod" data-adm-mod="appts">View All</button>
+            </div>
+            <div id="adm-rec-ap"><div class="adm-rec-ap-empty">No appointments yet</div></div>
+          </div>
+        </div>
+        <!-- Consultants -->
+        <div id="admmod-consultants" class="adm-mod">
+          <div class="adm-mod-hdr">
+            <div class="adm-mod-title">Consultant Roster</div>
+            <button class="btn-adm-add-consultant" data-action="admShowConModal">+ Add Consultant</button>
+          </div>
+          <div class="adm-card">
+            <table class="adm-tbl"><thead><tr><th>Name</th><th>Specialisation</th><th>Fee</th><th>Available Slots</th><th>Status</th><th></th></tr></thead>
+            <tbody id="adm-con-tb"><tr><td colspan="6" class="adm-tbl-empty">No consultants yet. Add one to enable patient booking.</td></tr></tbody></table>
+          </div>
+        </div>
+        
+        <!-- Slots -->
+        <div id="admmod-slots" class="adm-mod">
+        <div id="adm-wk-slot-root">
+        <div class="adm-slots-loading">Loading slots...</div>
+        </div>
+        </div>
+
+
+        <!-- Appointments -->
+        <div id="admmod-appts" class="adm-mod">
+          <div class="adm-mod-hdr--simple">All Appointments</div>
+          <div class="adm-card">
+            <table class="adm-tbl"><thead><tr><th>Booking ID</th><th>Patient</th><th>Consultant</th><th>Date/Time</th><th>Mode</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody id="adm-appt-tb"><tr><td colspan="7" class="adm-tbl-empty">No appointments yet</td></tr></tbody></table>
+          </div>
+        </div>
+        <!-- Payments -->
+        <div id="admmod-payments" class="adm-mod">
+          <div class="adm-mod-hdr--simple">Payment Transactions</div>
+          <div class="adm-stat-grid">
+            <div class="adm-stat adm-stat--green"><div class="adm-stat__label">Revenue</div><div class="adm-stat__value adm-stat__value--sm" id="pstat-rv">Rs 0</div></div>
+            <div class="adm-stat adm-stat--teal"><div class="adm-stat__label">Successful</div><div class="adm-stat__value adm-stat__value--sm" id="pstat-ok">0</div></div>
+            <div class="adm-stat adm-stat--gold"><div class="adm-stat__label">Pending</div><div class="adm-stat__value adm-stat__value--sm" id="pstat-pe">0</div></div>
+            <div class="adm-stat adm-stat--rose"><div class="adm-stat__label">Failed</div><div class="adm-stat__value adm-stat__value--sm" id="pstat-fa">0</div></div>
+          </div>
+          <div class="adm-card">
+            <table class="adm-tbl"><thead><tr><th>Transaction ID</th><th>Patient</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody id="adm-pay-tb"><tr><td colspan="6" class="adm-tbl-empty">No transactions yet</td></tr></tbody></table>
+          </div>
+        </div>
+        <!-- Compliance -->
+        <div id="admmod-compliance" class="adm-mod">
+          <div class="adm-mod-hdr--simple">DPDP 2023 &mdash; Compliance Status</div>
+          <div class="adm-card"><div class="adm-comp-body" id="adm-comp-b"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin: Add Consultant Modal -->
+<div id="adm-con-modal" class="adm-con-modal is-hidden">
+  <div class="adm-con-modal__card">
+    <div class="adm-con-modal__hdr"><span id="adm-con-ttl">Add Consultant</span><button class="adm-con-modal__close" data-action="admHideConModal">&#x2715;</button></div>
+    <div class="adm-con-modal__grid-2">
+      <div><label class="adm-con-modal__field-label">Full Name</label><input id="anc-nm" class="adm-con-modal__input" placeholder="Dr. Full Name"></div>
+      <div><label class="adm-con-modal__field-label">Qualification</label><input id="anc-ql" class="adm-con-modal__input" placeholder="MBBS, MD"></div>
+    </div>
+    <div class="adm-con-modal__section">
+      <label class="adm-con-modal__field-label">Specialisation</label>
+      <select id="anc-sp" class="adm-con-modal__select" data-action="ancSpToggle">
+        <option>Gynaecologist &amp; Menopause Consultant</option>
+        <option selected>Menopause Specialist</option>
+        <option>Psychiatrist</option><option>Clinical Psychologist</option>
+        <option>Counsellor</option><option>Ayurveda Consultant</option>
+        <option>Clinical Nutritionist</option><option>Physiotherapist</option>
+        <option>Yoga Instructor</option><option>Lifestyle Coach</option>
+        <option>Aerobics &amp; Zumba Expert</option><option>Dermatologist</option>
+        <option>Sexologist</option><option>Earth Harmony Expert</option>
+        <option value="custom">&#x270F; Custom Specialisation…</option>
+      </select>
+      <input id="anc-sp-c" class="adm-con-modal__custom-input is-hidden" placeholder="Custom specialisation…">
+    </div>
+    <div class="adm-con-modal__grid-3">
+      <div><label class="adm-con-modal__field-label">Fee (Rs)</label><input id="anc-fe" type="number" value="1500" class="adm-con-modal__input"></div>
+      <div><label class="adm-con-modal__field-label">Default Duration</label>
+        <select id="anc-dur" class="adm-con-modal__select" data-action="ancDurToggle">
+          <option value="20">20 min</option><option value="30" selected>30 min</option><option value="45">45 min</option>
+          <option value="60">60 min</option><option value="90">90 min</option><option value="c">&#x270F; Custom</option>
+        </select>
+        <input id="anc-dur-c" type="number" placeholder="mins" min="5" max="240" class="adm-con-modal__custom-input adm-con-modal__custom-input--dur is-hidden">
+      </div>
+      <div><label class="adm-con-modal__field-label">Experience</label><input id="anc-exp" placeholder="e.g. 10 yrs" class="adm-con-modal__input"></div>
+    </div>
+    <div class="adm-con-modal__section adm-con-modal__section--langs"><label class="adm-con-modal__field-label">Languages</label><input id="anc-la" value="Hindi, English" class="adm-con-modal__input"></div>
+    <input type="hidden" id="anc-eid" value="">
+    <div class="adm-con-modal__actions">
+      <button class="btn-adm-modal-cancel" data-action="admHideConModal">Cancel</button>
+      <button id="anc-savebtn" data-action="admACon">Add &rarr; Visible in Patient Booking Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin: Add Slot Modal -->
+<div id="adm-slot-modal" class="adm-slot-modal is-hidden">
+  <div class="adm-slot-modal__card">
+    <div class="adm-slot-modal__title">Add Availability Slot</div>
+    <div class="adm-slot-modal__field"><label class="adm-con-modal__field-label">Consultant</label><select id="ans-con" class="adm-con-modal__select"></select></div>
+    <div class="adm-slot-modal__field"><label class="adm-con-modal__field-label">Date</label><input type="date" id="ans-dt" class="adm-con-modal__input"></div>
+    <div class="adm-slot-modal__grid">
+      <div><label class="adm-con-modal__field-label">Time</label>
+        <select id="ans-tm" class="adm-con-modal__select">
+          <option>09:00 AM</option><option>09:30 AM</option><option>10:00 AM</option><option>10:30 AM</option>
+          <option>11:00 AM</option><option>11:30 AM</option><option>02:00 PM</option><option>02:30 PM</option>
+          <option>03:00 PM</option><option>03:30 PM</option><option>04:00 PM</option><option>05:00 PM</option>
+        </select>
+      </div>
+      <div><label class="adm-con-modal__field-label">Duration</label>
+        <select id="ans-du" class="adm-con-modal__select" data-action="ansDuToggle">
+          <option value="15">15 min</option><option value="20">20 min</option>
+          <option value="30" selected>30 min</option><option value="45">45 min</option>
+          <option value="60">60 min</option><option value="90">90 min</option>
+          <option value="120">2 hrs</option><option value="c">&#x270F; Custom…</option>
+        </select>
+        <input id="ans-du-c" type="number" placeholder="Enter minutes" min="5" max="300" class="adm-con-modal__custom-input adm-con-modal__custom-input--dur is-hidden">
+      </div>
+    </div>
+    <div class="adm-slot-modal__actions">
+      <button class="btn-adm-modal-cancel" data-action="admHideSlotModal">Cancel</button>
+      <button class="adm-slot-modal__save" data-action="admASl">Add Slot &rarr; Patients Can Book</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- TOAST CONTAINER -->
+<div id="int-toast-c"></div>
+<!-- INTEGRATION BOOKING SCREEN -->
+ <div id="patient-dashboard-screen" class="screen"></div>
+<div id="int-bk-screen" class="screen">
+  <div class="int-bk-wrap">
+    <div class="int-bk-card">
+      <div class="int-bk-card__hdr">
+        <div class="int-bk-card__title">Book Appointment</div>
+        <div id="int-bk-sub">Step 1 of 5</div>
+      </div>
+      <div class="int-bk-card__body">
+        <div class="int-bk-steps">
+          <div class="int-bk-step-col"><div class="ibpd active" id="ibpd1">1</div><div class="int-bk-step-label">Mode</div></div>
+          <div class="ibpl" id="ibpl1"></div>
+          <div class="int-bk-step-col"><div class="ibpd" id="ibpd2">2</div><div class="int-bk-step-label">Doctor</div></div>
+          <div class="ibpl" id="ibpl2"></div>
+          <div class="int-bk-step-col"><div class="ibpd" id="ibpd3">3</div><div class="int-bk-step-label">Slot</div></div>
+          <div class="ibpl" id="ibpl3"></div>
+          <div class="int-bk-step-col"><div class="ibpd" id="ibpd4">4</div><div class="int-bk-step-label">Pay</div></div>
+          <div class="ibpl" id="ibpl4"></div>
+          <div class="int-bk-step-col"><div class="ibpd" id="ibpd5">5</div><div class="int-bk-step-label">Done</div></div>
+        </div>
+        <div id="int-bk-body"></div>
+        <div class="int-bk-nav">
+          <button id="ibk-bk" class="is-hidden" data-action="intBkPv">&#x2190; Back</button>
+          <div class="int-bk-nav__spacer"></div>
+          <button id="ibk-nx" data-action="intBkNx">Next &rarr;</button>
+        </div>
+      </div>
+    </div>                                                                                                                                                                                                                                                                                                                                                                                                                  
+  </div>
+</div>
+
+<!-- TEMPLATES: hardstop.js, utilities.js, navigation.js -->
+<template id="tpl-gyne-stop-body">
+  <div class="hard-stop-card">
+    <span class="hs-icon">🏥</span>
+    <h2>Immediate Gynaecology Consultation Required</h2>
+    <p>Your responses indicate symptoms that require prompt medical evaluation. For your safety, please see a gynaecologist before continuing this wellness assessment.</p>
+    <div class="hs-flags"><strong>Symptoms flagged:</strong><ul data-list="flags"></ul></div>
+    <div class="hs-actions">
+      <div class="hs-call-btn hs-call-btn--rose hs-call-btn--display">📞 Call EvaEraHealth Clinic: +91 80690 50000</div>
+      <button type="button" class="hs-call-btn hs-call-btn--teal" data-action="sendClinicEmail" data-contact-type="gyne" data-fill="clinicEmailLabel" data-email-prefix="✉️ Email: "></button>
+    </div>
+    <div class="hs-btns">
+      <button type="button" class="hs-btn-primary" data-action="overrideGyneStop">→ Continue Assessment (Red Flag Retained)</button>
+      <div class="hs-btn-hint">Gynaecology referral will appear in your care plan</div>
+      <button type="button" class="hs-btn-outline" data-action="startProcessing">📋 View Partial Wellness Report</button>
+    </div>
+  </div>
+</template>
+<template id="tpl-psych-stop-body">
+  <div class="hard-stop-card">
+    <span class="hs-icon">💙</span>
+    <h2>You Are Not Alone</h2>
+    <p>You mentioned thoughts about self-harm. This takes courage to share. Please reach out for immediate support — trained counsellors are available right now.</p>
+    <div class="crisis-box">
+      <h3>🆘 Immediate Support Lines</h3>
+      <div class="crisis-num">iCall: <a href="tel:9152987821">9152987821</a></div>
+      <p>Vandrevala Foundation 24/7: <strong><a href="tel:18602662345">1860-2662-345</a></strong></p>
+      <p>NIMHANS Helpline: <strong><a href="tel:08046110007">080-46110007</a></strong></p>
+      <p>SNEHI: <strong><a href="tel:04424640050">044-24640050</a></strong></p>
+    </div>
+    <div class="hs-actions">
+      <div class="hs-call-btn hs-call-btn--purple hs-call-btn--display">📞 EvaEraHealth Clinic: +91 80690 50000</div>
+      <button type="button" class="hs-call-btn hs-call-btn--teal" data-action="sendClinicEmail" data-contact-type="psych" data-fill="clinicEmailLabel" data-email-prefix="✉️ Email: "></button>
+    </div>
+    <div class="hs-btns">
+      <button type="button" class="hs-btn-primary hs-btn-primary--psych" data-action="overridePsychStop">→ Continue Assessment (Crisis Flag Retained)</button>
+      <button type="button" class="hs-btn-outline" data-action="startProcessing">📋 View Partial Wellness Report</button>
+    </div>
+  </div>
+</template>
+<template id="tpl-privacy-modal">
+  <div class="privacy-overlay" data-action="privacyOverlayClick">
+    <div class="privacy-modal">
+      <h3>Privacy Notice</h3>
+      <p><strong>Data Controller:</strong> EvaEraHealth Technology Pvt Ltd, Gurugram<br>
+      <strong>DPO:</strong> dpo@evaerahealth.in<br>
+      <strong>Purpose:</strong> Menopause wellness assessment and personalised care<br>
+      <strong>Legal Basis:</strong> DPDP Act 2023 — your explicit consent<br>
+      <strong>Data Retention:</strong> Session data stored locally. Delete anytime.<br>
+      <strong>Your Rights:</strong> Access · Correction · Erasure · Portability<br>
+      <strong>Grievance:</strong> clinic@evaerahealth.in · +91 80690 50000<br>
+      <strong>Regulator:</strong> Data Protection Board of India</p>
+      <button type="button" class="privacy-modal__close" data-action="privacyClose">Close</button>
+    </div>
+  </div>
+</template>
+<template id="tpl-validation-toast">
+  <div class="val-toast" id="val-toast"><span class="val-toast__icon">⚠️</span><span data-fill="msg"></span></div>
+</template>
+<template id="tpl-session-idle-toast">
+  <div class="session-idle-toast">Session expires in 5 minutes — your progress is auto-saved.</div>
+</template>
+<template id="tpl-step-summary-wrap">
+  <div class="step-summary-wrap">
+    <div class="step-summary-list" data-list="rows"></div>
+    <div class="step-summary-hint">✏️ Click <strong>← Edit</strong> to change any answer before confirming</div>
+  </div>
+</template>
+<template id="tpl-step-summary-row">
+  <div class="step-summary-row"><span class="step-summary-label" data-fill="label"></span><span class="step-summary-value" data-fill="value"></span></div>
+</template>
+
+<!-- TEMPLATES: integration.js -->
+<template id="tpl-int-toast">
+  <div class="int-toast">
+    <div class="int-toast__body">
+      <div class="int-toast__title" data-fill="title"></div>
+      <div class="int-toast__msg" data-fill="msg"></div>
+      <div class="int-toast__src" data-fill="src"></div>
+    </div>
+    <div class="int-toast__close" data-action="intToastClose">x</div>
+  </div>
+</template>
+<template id="tpl-adm-cred-modal">
+  <div class="adm-cred-overlay" data-action="admCredOverlayClick">
+    <div class="adm-cred-modal">
+      <div class="adm-cred-modal__icon">🔐</div>
+      <div class="adm-cred-modal__title">HCP Credentials Generated</div>
+      <div class="adm-cred-modal__sub">Share securely with <span data-fill="name"></span></div>
+      <div class="adm-cred-modal__box">
+        <div class="adm-cred-modal__box-label">📧 HCP Portal Login</div>
+        <div class="adm-cred-modal__email" data-fill="email"></div>
+        <div class="adm-cred-modal__pass">Password / OTP: <strong data-fill="pass"></strong></div>
+      </div>
+      <div class="adm-cred-modal__warn">⚠ In production: send via encrypted email only.</div>
+      <button type="button" class="adm-cred-modal__copy" data-action="admCredCopy">📋 Copy &amp; Close</button>
+      <button type="button" class="adm-cred-modal__close-btn" data-action="admCredClose">Close without copying</button>
+    </div>
+  </div>
+</template>
+<template id="tpl-adm-con-row">
+  <tr>
+    <td><strong data-fill="name"></strong><div class="adm-con-qual" data-fill="qual"></div></td>
+    <td><span class="abd" data-fill="specBadge"></span></td>
+    <td data-fill="fee"></td>
+    <td><span class="abd" data-fill="availBadge"></span></td>
+    <td><span class="abd" data-fill="activeBadge"></span></td>
+    <td class="adm-con-actions" data-fill="actions"></td>
+  </tr>
+</template>
+<template id="tpl-adm-slot-row">
+  <tr>
+    <td data-fill="consultant"></td><td data-fill="date"></td><td data-fill="time"></td>
+    <td data-fill="dur"></td><td data-fill="status"></td><td class="adm-slot-booked" data-fill="booked"></td>
+  </tr>
+</template>
+<template id="tpl-adm-appt-row">
+  <tr>
+    <td class="adm-appt-id" data-fill="id"></td>
+    <td data-fill="patient"></td><td data-fill="consultant"></td><td data-fill="datetime"></td>
+    <td data-fill="mode"></td><td data-fill="fee"></td><td data-fill="statusCell"></td>
+  </tr>
+</template>
+<template id="tpl-adm-pay-row">
+  <tr>
+    <td class="adm-pay-id" data-fill="id"></td>
+    <td data-fill="patient"></td><td data-fill="amount"></td>
+    <td data-fill="method"></td><td data-fill="ts"></td><td data-fill="status"></td>
+  </tr>
+</template>
+<template id="tpl-adm-feed-item">
+  <div class="adm-feed-item">
+    <div class="adm-feed-item__dot"></div>
+    <div><div class="adm-feed-item__title" data-fill="title"></div>
+    <div class="adm-feed-item__meta" data-fill="meta"></div></div>
+  </div>
+</template>
+<template id="tpl-adm-feed-empty"><div class="adm-feed-empty">Waiting for activity...</div></template>
+<!-- integration.js — admin table empty row -->
+<template id="tpl-adm-empty-row"><tr><td class="adm-tbl-empty" data-fill="msg"></td></tr></template>
+<!-- integration.js — admin status badge -->
+<template id="tpl-abd-badge"><span class="abd" data-fill="text"></span></template>
+<!-- integration.js — admin dashboard recent appointments table -->
+<template id="tpl-adm-dash-table">
+  <table class="adm-tbl">
+    <thead><tr><th>Patient</th><th>Consultant</th><th>Date/Time</th><th>Mode</th><th>Status</th></tr></thead>
+    <tbody data-list="rows"></tbody>
+  </table>
+</template>
+<template id="tpl-adm-comp-row">
+  <div class="adm-comp-row">
+    <div><div class="adm-comp-row__title" data-fill="title"></div><div class="adm-comp-row__sub" data-fill="sub"></div></div>
+    <span class="abd" data-fill="badge"></span>
+  </div>
+</template>
+<template id="tpl-adm-comp-footer"><div class="adm-comp-footer">Consent records: <strong data-fill="count"></strong></div></template>
+<template id="tpl-adm-dash-appt-row">
+  <tr><td data-fill="patient"></td><td data-fill="consultant"></td><td data-fill="datetime"></td><td data-fill="mode"></td><td data-fill="status"></td></tr>
+</template>
+<template id="tpl-adm-dash-empty"><div class="adm-dash-empty">No appointments yet</div></template>
+<template id="tpl-adm-con-btn"><button type="button" class="adm-con-btn" data-fill="label"></button></template>
+<template id="tpl-bk-slot-wrap"><div class="bk-slot-wrap" data-list="days"></div></template>
+<template id="tpl-bk-slot-label"><div class="bk-slot-label" data-fill="text"></div></template>
+<template id="tpl-bk-pay-label"><div class="bk-pay-label">Payment method:</div></template>
+<template id="tpl-step-card">
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num" data-fill="stepNum"></div>
+      <h2 data-fill="title"></h2>
+      <p data-fill="subtitle"></p>
+    </div>
+    <div data-list="body"></div>
+  </div>
+</template>
+<template id="tpl-step-dots"><div class="step-dots-inner" data-list="dots"></div></template>
+<template id="tpl-step-dot"><div class="step-dot" data-fill="dotId"></div></template>
+<template id="tpl-step-line"><div class="step-line" data-fill="lineId"></div></template>
+<template id="tpl-hcp-auth-card">
+  <div class="hcp-auth-card-inner">
+    <h2 class="hcp-auth-title">🩺 Clinician Login</h2>
+    <p class="hcp-auth-sub">EvaEraHealth Clinic · Gurugram Flagship Center</p>
+    <a class="hcp-auth-back" data-action="intShowLauncher">← Back to Portal Selection</a>
+    <div id="hcp-login-err" class="hcp-login-err" style="display:none"></div>
+    <div class="form-group hcp-auth-field">
+      <label>Email</label>
+      <input type="email" id="hcp-email-input" placeholder="you@evaerahealth.in" autocomplete="email">
+    </div>
+    <div class="form-group hcp-auth-field hcp-auth-field--pass">
+      <label>Password</label>
+      <div class="hcp-pass-wrap">
+        <input type="password" id="hcp-pass-input" placeholder="Your password" autocomplete="current-password">
+        <span class="hcp-pass-toggle" data-action="hcpTogglePassVis" title="Show/hide">👁</span>
+      </div>
+    </div>
+    <button type="button" id="hcp-login-btn" class="btn-hcp hcp-auth-submit" data-action="hcpDoLogin">Sign In →</button>
+    <div class="hcp-auth-footer">Access is granted by your administrator only</div>
+  </div>
+</template>
+<template id="tpl-bk-mode-grid"><div class="bk-mode-grid" data-list="cards"></div></template>
+<template id="tpl-bk-mode-card">
+  <div class="bk-mode-card" data-action="bkSelectMode">
+    <div class="bk-mode-card__icon" data-fill="icon"></div>
+    <div class="bk-mode-card__title" data-fill="title"></div>
+    <div class="bk-mode-card__sub" data-fill="sub"></div>
+  </div>
+</template>
+<template id="tpl-bk-doctor-card">
+  <div class="bk-doctor-card" data-action="bkSelectDoctor">
+    <div class="bk-doctor-card__avatar" data-fill="initials"></div>
+    <div><div class="bk-doctor-card__name" data-fill="name"></div>
+    <div class="bk-doctor-card__meta" data-fill="qual"></div>
+    <div class="bk-doctor-card__meta" data-fill="meta"></div></div>
+  </div>
+</template>
+<template id="tpl-bk-slot-day">
+  <div class="bk-slot-day-wrap">
+    <div class="bk-slot-day" data-fill="label"></div>
+    <div class="bk-slot-grid" data-list="slots"></div>
+  </div>
+</template>
+<template id="tpl-bk-slot-btn">
+  <div class="bk-slot-btn" data-action="bkSelectSlot" data-fill="time"></div>
+</template>
+<template id="tpl-bk-pay-grid"><div class="bk-pay-grid" data-list="cards"></div></template>
+<template id="tpl-bk-pay-card">
+  <div class="bk-pay-card" data-action="bkSelectPay">
+    <div class="bk-pay-card__title" data-fill="title"></div>
+    <div class="bk-pay-card__sub" data-fill="sub"></div>
+  </div>
+</template>
+<template id="tpl-bk-confirm">
+  <div class="bk-confirm-wrap">
+    <div class="bk-confirm-wrap__icon">🎉</div>
+    <div class="bk-confirm-wrap__title">Appointment Confirmed!</div>
+    <div class="bk-confirm-det" id="int-cnf-det"></div>
+    <div class="bk-confirm-notif">🔗 Details will be sent to your Confirmation Email</div>
+    <button type="button" class="bk-confirm-back" data-action="bkConfirmBack" data-fill="backLabel"></button>
+  </div>
+</template>
+<template id="tpl-bk-order-summary">
+  <div class="bk-order-summary">
+    <div class="bk-order-summary__title">Order Summary</div>
+    <div class="bk-order-summary__row">Consultant: <strong data-fill="consultant"></strong></div>
+    <div class="bk-order-summary__row">Date &amp; Time: <strong data-fill="datetime"></strong></div>
+    <div class="bk-order-summary__row">Mode: <strong data-fill="mode"></strong></div>
+    <div class="bk-order-summary__fee">Fee: <strong data-fill="fee"></strong></div>
+  </div>
+</template>
+<template id="tpl-bk-empty"><div class="bk-empty-state"><div class="bk-empty-state__icon" data-fill="icon"></div><span data-fill="html"></span></div></template>
+<template id="tpl-bk-loading"><div class="bk-loading"><div class="bk-loading__icon">⏳</div>Loading available slots…</div></template>
+
+<!-- TEMPLATES: admin-slots.js -->
+<template id="tpl-slot-popup"><div class="sl-popup" id="_sl-picker" data-list="rows"></div></template>
+<template id="tpl-slot-sheet-row">
+  <div class="sl-popup__row" data-action="slPickerRow">
+    <span class="sl-popup__dot" data-fill="dotColor"></span>
+    <span class="sl-popup__label" data-fill="label"></span>
+    <span class="sl-popup__meta" data-fill="meta"></span>
+  </div>
+</template>
+<template id="tpl-slot-sheet">
+  <div class="sl-sheet-overlay" id="_sl-drawer-overlay" data-action="slDrawerOverlayClick">
+    <div class="sl-sheet">
+      <div class="sl-sheet__hdr">
+        <div><div class="sl-sheet__title" data-fill="title"></div><div class="sl-sheet__sub" data-fill="sub"></div></div>
+        <button type="button" class="sl-sheet__close" data-action="slCloseDrawer">✕</button>
+      </div>
+      <div class="sl-sheet__count" id="_sl-drawer-count"></div>
+      <div data-list="sections"></div>
+      <button type="button" class="sl-sheet__confirm" data-action="slDrawerConfirm">Confirm</button>
+    </div>
+  </div>
+</template>
+<template id="tpl-slot-popup-divider"><div class="sl-popup__divider"></div></template>
+<template id="tpl-slot-popup-custom">
+  <div class="sl-popup__row sl-popup__row--custom">
+    <span class="sl-popup__custom-icon">✏</span>
+    <span class="sl-popup__label">Custom slots…</span>
+  </div>
+</template>
+<template id="tpl-slot-sheet-section">
+  <div class="sl-sheet__section">
+    <div class="sl-sheet__section-label" data-fill="label"></div>
+    <div class="sl-sheet__ctrl-row">
+      <button type="button" class="sl-sheet__ctrl-btn" data-action="slSelAll">Select all</button>
+      <button type="button" class="sl-sheet__ctrl-btn" data-action="slClrAll">Clear</button>
+    </div>
+    <div class="sl-sheet__slot-grid" data-list="slots"></div>
+  </div>
+</template>
+<template id="tpl-slot-sheet-slot-btn"><button type="button" class="sl-sheet__slot-btn" data-fill="time"></button></template>
+
+<!-- TEMPLATES: consent.js -->
+<template id="tpl-consent-item">
+  <div class="consent-item">
+    <input type="checkbox" data-action="consentChange">
+    <div class="ci-body">
+      <div class="ci-title"><span data-fill="title"></span><span class="ci-badge" data-fill="badge"></span></div>
+      <div class="ci-desc" data-fill="desc"></div>
+    </div>
+  </div>
+</template>
+<template id="tpl-auth-err-banner">
+  <div class="auth-err-banner" id="auth-err-banner">
+    <span data-fill="msg"></span>
+    <br><span class="auth-err-banner__hint">Switch to the <strong data-action="authTabRegister">Register</strong> tab to create a new account.</span>
+  </div>
+</template>
+
+<!-- TEMPLATES: supabase.js -->
+<template id="tpl-sb-status-banner">
+  <div class="sb-status-banner" id="sb-status-banner" data-fill="msg"></div>
+</template>
+
+<!-- TEMPLATES: hcp-portal.js -->
+<template id="tpl-hcp-shell">
+  <div class="hcp-tab-strip">
+    <div class="hcp-tab-btn active" id="hcpnav-home" data-action="hcpSwitchTab" data-tab="home">
+      <span class="hcp-tab-icon">🏠</span><span class="hcp-tab-txt">Home</span>
+    </div>
+    <div class="hcp-tab-btn" id="hcpnav-assessments" data-action="hcpSwitchTab" data-tab="assessments">
+      <span class="hcp-tab-icon">📋</span><span class="hcp-tab-txt">Assessments</span>
+    </div>
+    <div class="hcp-tab-btn" id="hcpnav-appointments" data-action="hcpSwitchTab" data-tab="appointments">
+      <span class="hcp-tab-icon">📅</span><span class="hcp-tab-txt">Appointments</span>
+    </div>
+  </div>
+  <div id="hcp-tab-home" class="hcp-tab-panel" style="display:none"></div>
+  <div id="hcp-tab-assessments" class="hcp-tab-panel" style="display:none"></div>
+  <div id="hcp-tab-appointments" class="hcp-tab-panel" style="display:none"></div>
+</template>
+<template id="tpl-hcp-home-panel">
+  <div class="hcp-home-wrap">
+    <div class="hcp-welcome-card">
+      <div class="hcp-welcome-glow"></div>
+      <div class="hcp-welcome-inner">
+        <div class="hcp-welcome-avatar" data-fill="initials"></div>
+        <div class="hcp-welcome-text">
+          <div class="hcp-welcome-greeting" data-fill="greeting"></div>
+          <div class="hcp-welcome-name" data-fill="name"></div>
+          <div class="hcp-welcome-qual" data-fill="qual"></div>
+          <div class="hcp-welcome-spec" data-fill="spec"></div>
+        </div>
+        <button type="button" class="hcp-signout-btn" data-action="hcpLogout" title="Sign Out">⏻ Sign Out</button>
+      </div>
+      <div class="hcp-welcome-meta" data-fill="metaPills"></div>
+      <div class="hcp-welcome-email" data-fill="email"></div>
+    </div>
+    <div class="hcp-section-title">Platform</div>
+    <div class="hcp-info-card" data-fill="infoCard"></div>
+  </div>
+</template>
+<template id="tpl-hcp-patient-list-hdr">
+  <div class="hcp-pl-hdr">
+    <div class="hcp-pl-stats">
+      <div><div class="hcp-pl-stat-num" data-fill="total"></div><div class="hcp-pl-stat-lbl">Total</div></div>
+      <div><div class="hcp-pl-stat-num hcp-pl-stat-num--warn" data-fill="severe"></div><div class="hcp-pl-stat-lbl">Moderate+</div></div>
+      <div><div class="hcp-pl-stat-num hcp-pl-stat-num--alert" data-fill="alerts"></div><div class="hcp-pl-stat-lbl">Alerts</div></div>
+    </div>
+    <input class="pl-search" type="text" placeholder="Search patients..." data-action="hcpFilterPatients">
+  </div>
+</template>
+<template id="tpl-hcp-patient-empty">
+  <div class="hcp-pl-empty"><div class="hcp-pl-empty__icon">📋</div><div>No patients yet.<br>Complete an assessment to see records here.</div></div>
+</template>
+<template id="tpl-hcp-badge"><span class="hcp-pi-badge" data-fill="html"></span></template>
+<template id="tpl-hcp-patient-row">
+  <div class="patient-item" data-action="hcpSelectPatient">
+    <span class="pi-flag" data-fill="flagClass"></span>
+    <div class="pi-avatar" data-fill="initials"></div>
+    <div class="pi-info">
+      <div class="pi-name"><span data-fill="name"></span><span class="pi-score" data-fill="scoreClass"></span></div>
+      <div class="pi-meta" data-fill="meta1"></div>
+      <div class="pi-meta" data-fill="meta2"></div>
+      <div class="pi-badges" data-fill="badges"></div>
+    </div>
+  </div>
+</template>
+<template id="tpl-hcp-appt-row">
+  <tr data-fill="rowId">
+    <td class="hcp-appt-row-patient" data-fill="patient"></td>
+    <td class="hcp-appt-row-datetime" data-col="datetime" data-fill="datetime"></td>
+    <td class="hcp-appt-row-mode" data-col="mode" data-fill="mode"></td>
+    <td data-col="status" data-fill="status"></td>
+  </tr>
+</template>
+
+<!-- TEMPLATES: results.js, patient-dashboard.js -->
+<template id="tpl-results-screen">
+  <div class="results-shell" data-list="content"></div>
+</template>
+<template id="tpl-pd-shell">
+  <div class="pd-wrap">
+    <nav class="pd-nav">
+      <div class="pd-brand">Eva<span>Era</span>Health <span class="pd-brand-tag">My Health</span></div>
+      <div class="pd-nav-actions">
+        <button type="button" class="pd-btn-retake" data-action="pdRetakeAssessment">↻ Retake Assessment</button>
+        <button type="button" class="pd-btn-signout" data-action="pdSignOut">Sign out</button>
+      </div>
+    </nav>
+    <div data-fill="welcome"></div>
+    <div data-fill="tabs"></div>
+    <div class="pd-panels" data-fill="panels"></div>
+    <div data-fill="retake"></div>
+  </div>
+</template>
+<template id="tpl-pd-loading">
+  <div class="pd-loading-wrap">
+    <div class="pd-loading-wrap__icon">🌸</div>
+    <div>Loading your dashboard…</div>
+  </div>
+</template>
+<template id="tpl-amm-modal">
+  <div id="apmt-mgmt-modal" class="amm-modal" style="display:none">
+    <div class="amm-modal__card">
+      <div class="amm-modal__hdr">
+        <div><div id="amm-title" class="amm-modal__title"></div><div id="amm-subtitle" class="amm-modal__sub"></div></div>
+        <button type="button" data-action="closeApptModal" class="amm-modal__close">✕</button>
+      </div>
+      <div id="amm-window-strip" class="amm-modal__strip"></div>
+      <div id="amm-body" class="amm-modal__body"></div>
+      <div id="amm-footer" class="amm-modal__footer"></div>
+    </div>
+  </div>
+</template>
+
+<!-- patient-dashboard.js — AMM modal views -->
+<template id="tpl-amm-locked-body">
+  <div class="amm-locked">
+    <div class="amm-locked__icon">🔒</div>
+    <div class="amm-locked__text">Appointments can only be cancelled, rescheduled, or have their mode changed <strong>more than 2 hours before the appointment time</strong>.<br><br>To make changes after this window, please contact the clinic directly.</div>
+    <div class="amm-locked__helpline">📞 Clinic Helpline: <strong>+91 98765 43210</strong></div>
+  </div>
+</template>
+<template id="tpl-amm-cancel-body">
+  <div class="amm-cancel-wrap">
+    <div class="amm-cancel-warn"><div class="amm-cancel-warn__title">⚠️ Are you sure you want to cancel?</div><div class="amm-cancel-warn__text">This will permanently cancel your appointment. The slot will be released back to the clinic.</div></div>
+    <div class="amm-refund-note">💰 <strong>Refund Policy:</strong> Since you are cancelling more than 2 hours before your appointment, a full refund will be processed within 5–7 business days.</div>
+  </div>
+</template>
+<template id="tpl-amm-footer-btns"><div class="amm-footer-btns" data-list="buttons"></div></template>
+<template id="tpl-amm-btn"><button type="button" class="amm-btn" data-fill="label"></button></template>
+<template id="tpl-amm-reschedule-body">
+  <div class="amm-reschedule-wrap">
+    <div class="amm-reschedule-intro" data-fill="intro"></div>
+    <div id="amm-slot-loader" class="amm-slot-loader">⏳ Loading available slots…</div>
+    <div id="amm-slot-grid" class="amm-slot-grid"></div>
+  </div>
+</template>
+<template id="tpl-amm-slot-day">
+  <div class="amm-slot-day-wrap">
+    <div class="amm-slot-day" data-fill="label"></div>
+    <div class="amm-slot-day-grid" data-list="slots"></div>
+  </div>
+</template>
+<template id="tpl-amm-slot-btn"><button type="button" class="amm-slot-btn" data-fill="time"></button></template>
+<!-- patient-dashboard.js — AMM empty slot grid -->
+<template id="tpl-amm-slot-empty"><div class="amm-slot-empty">No available slots found for this consultant.<br>Please contact the clinic.</div></template>
+<template id="tpl-amm-mode-body">
+  <div class="amm-mode-wrap">
+    <div class="amm-mode-intro">Switch your consultation mode for this appointment:</div>
+    <div class="amm-mode-grid" data-list="tiles"></div>
+    <div class="amm-mode-note">ℹ️ Mode change is free and instant. Your appointment date and time remain the same.</div>
+  </div>
+</template>
+<template id="tpl-amm-mode-tile">
+  <div class="amm-mode-tile">
+    <div class="amm-mode-tile__icon" data-fill="icon"></div>
+    <div class="amm-mode-tile__label" data-fill="label"></div>
+    <div class="amm-mode-tile__hint" data-fill="hint"></div>
+  </div>
+</template>
+<template id="tpl-amm-status-body">
+  <div class="amm-status">
+    <div class="amm-status__icon" data-fill="icon"></div>
+    <div class="amm-status__title" data-fill="title"></div>
+    <div class="amm-status__msg" data-fill="msg"></div>
+  </div>
+</template>
+
+<!-- TEMPLATES: field-helpers.js -->
+<template id="tpl-likert-item">
+  <div class="likert-item">
+    <div class="likert-q" data-fill="question"></div>
+    <div class="likert-scale" data-list="buttons"></div>
+    <div class="likert-labels"><span data-fill="labelMin"></span><span data-fill="labelMax"></span></div>
+  </div>
+</template>
+<template id="tpl-likert-btn">
+  <button type="button" class="likert-btn" data-action="setLikert" data-fill="value"></button>
+</template>
+<template id="tpl-radio-opt">
+  <div class="radio-opt" data-action="setRadio">
+    <input type="radio" tabindex="-1"><label data-fill="label"></label>
+  </div>
+</template>
+<template id="tpl-card-opt">
+  <div class="card-opt" data-action="toggleCard"><span class="card-icon" data-fill="icon"></span><span data-fill="label"></span><div class="card-desc" data-fill="desc"></div></div>
+</template>
+<template id="tpl-step-demographics">
+  <div class="step-demographics">
+    <div class="field-group"><label class="field-label">Your Name</label><input class="text-input" placeholder="Full name" data-field="name" data-action="setAnsInput"></div>
+    <div class="field-group"><label class="field-label">Age</label><input class="text-input" type="number" placeholder="e.g. 47" data-field="age" data-action="setAnsNumInput"></div>
+    <div class="field-group"><label class="field-label">City</label><input class="text-input" placeholder="e.g. Delhi, Mumbai, Chennai" data-field="city" data-action="setAnsInput"></div>
+    <div class="field-group"><label class="field-label">Country</label><select class="text-input" data-field="country" data-action="setAnsSelect"><option value="">Select country</option></select></div>
+    <div class="field-group"><label class="field-label">Ethnicity</label><div class="cards" data-list="ethnicity"></div></div>
+    <div class="field-group"><label class="field-label">Height &amp; Weight (for BMI)</label>
+      <div class="height-weight-row">
+        <input class="text-input" type="number" placeholder="Height (cm)" data-field="height_cm" data-action="setAnsNumBmi">
+        <input class="text-input" type="number" placeholder="Weight (kg)" data-field="weight_kg" data-action="setAnsNumBmi">
+      </div>
+      <div class="bmi-display" id="bmi-display"></div>
+    </div>
+    <div class="field-group"><label class="field-label">Menstrual Status</label><div class="cards" data-list="stage"></div></div>
+    <div class="field-group"><label class="field-label">Marital Status</label><div class="cards" data-list="marital"></div></div>
+    <div class="field-group"><label class="field-label">Occupation</label><input class="text-input" placeholder="e.g. Teacher, Doctor, Homemaker" data-field="occupation" data-action="setAnsInput"></div>
+    <div class="field-group"><label class="field-label">Highest Education</label><div class="cards" data-list="education"></div></div>
+    <div class="field-group"><label class="field-label">Smoking History</label><div class="cards" data-list="smoking"></div></div>
+    <div class="field-group"><label class="field-label">Alcohol Use</label><div class="cards" data-list="alcohol"></div></div>
+    <div class="field-group"><label class="field-label">Family History</label>
+      <div class="step-fam-hint">Select all that apply in first-degree relatives (mother, sisters, daughters)</div>
+      <div class="cards cards--fam" data-list="famHx"></div>
+    </div>
+    <div class="field-group"><label class="field-label">HRT / Hormone Therapy History</label><div class="cards" data-list="hrt"></div></div>
+    <div class="field-group"><label class="field-label">Parity (Number of pregnancies / deliveries)</label><div class="cards" data-list="parity"></div></div>
+  </div>
+</template>
+<template id="tpl-step-red-flags">
+  <div class="step-red-flags">
+    <div class="rf-warning-banner">⚠️ These questions identify symptoms that require immediate medical attention. Please answer honestly.</div>
+    <div data-list="questions"></div>
+  </div>
+</template>
+<template id="tpl-rf-question">
+  <div class="field-group"><label class="field-label" data-fill="question"></label><div class="radio-group" data-list="options"></div></div>
+</template>
+<template id="tpl-step-menqol"><div data-list="items"></div></template>
+<template id="tpl-menqol-domain-score">
+  <div class="menqol-domain-score">Domain score so far: <strong data-fill="scoreText"></strong>
+    <div class="domain-score-bar"><div class="domain-score-fill" data-fill="barStyle"></div></div>
+  </div>
+</template>
+<template id="tpl-menqol-privacy"><div class="menqol-privacy-banner">🔒 Your responses here are strictly confidential and protected under DPDP Act 2023.</div></template>
+<template id="tpl-step-gate">
+  <div class="gate-card">
+    <div class="gate-icon" data-fill="icon"></div>
+    <div class="gate-badge-wrap"><span class="gate-score-badge" data-fill="badgeClass"></span></div>
+    <p class="gate-desc" data-fill="desc"></p>
+    <div class="gate-q" data-fill="question"></div>
+    <div class="gate-btns">
+      <button type="button" class="gate-btn-yes" data-action="gateChoiceYes">Yes, continue</button>
+      <button type="button" class="gate-btn-no" data-action="gateChoiceNo">Skip for now</button>
+    </div>
+    <p class="gate-footnote" data-fill="footnote"></p>
+  </div>
+</template>
+<template id="tpl-section-label"><div class="section-label" data-fill="text"></div></template>
+<template id="tpl-step-hint"><div class="step-hint" data-fill="text"></div></template>
+<template id="tpl-pss-intro"><p class="pss-intro">In the <strong>last month</strong>, how often have you felt…</p></template>
+<template id="tpl-radio-item">
+  <div class="likert-item">
+    <div class="likert-q" data-fill="question"></div>
+    <div class="radio-group radio-group--tight" data-list="options"></div>
+  </div>
+</template>
+<template id="tpl-psych-progress">
+  <div class="psych-progress"><div class="psych-progress__bars" data-list="bars"></div><span class="psych-progress__label" data-fill="pageLabel"></span></div>
+</template>
+<template id="tpl-psych-progress-bar"><div class="psych-progress__bar"></div></template>
+<template id="tpl-psych-privacy"><div class="psych-privacy-banner">🔒 Strictly confidential — DPDP Act 2023 §6(1). Based on the past 4 weeks.</div></template>
+<template id="tpl-psych-activity-panel">
+  <div class="psych-activity-panel">
+    <div class="psych-activity-panel__title">💙 Sexual activity status</div>
+    <div class="psych-activity-panel__hint">This helps us interpret your responses correctly.</div>
+    <div class="cards cards--activity" data-list="options"></div>
+  </div>
+</template>
+<template id="tpl-psych-activity-opt">
+  <div class="card-opt" data-action="setSexualActivityStatus">
+    <strong data-fill="title"></strong>
+    <div class="card-desc psych-activity-desc" data-fill="desc"></div>
+  </div>
+</template>
+<template id="tpl-psych-rating-hint"><div class="psych-rating-hint"><strong data-fill="label"></strong> <span class="psych-rating-hint__text" data-fill="text"></span></div></template>
+<template id="tpl-psych-research-note"><div class="psych-research-note"><strong>ℹ Research Note:</strong> These items are EvaEraHealth proprietary, undergoing validation. For wellness awareness only.</div></template>
+<template id="tpl-psych-complete"><div class="psych-complete-banner"><strong>✅ Sexual Wellbeing Assessment complete.</strong> Your responses are strictly confidential and will personalise your care recommendations. 💚</div></template>
+<template id="tpl-step-mental-health"><div data-list="sections"></div></template>
+<template id="tpl-step-sleep"><div data-list="items"></div></template>
+<template id="tpl-step-psychosexual-1"><div data-list="content"></div></template>
+<template id="tpl-step-psychosexual-2"><div data-list="content"></div></template>
+<template id="tpl-step-psychosexual-3"><div data-list="content"></div></template>
+<template id="tpl-step-prakriti">
+  <p class="step-intro">Read each description and select the one that has been <strong>most true throughout your life</strong> — not how you feel right now.</p>
+  <div class="cards cards--single" data-list="options"></div>
+</template>
+<template id="tpl-step-vikriti">
+  <p class="step-intro">Now choose the description that best reflects <strong>how you are feeling right now</strong> — your current imbalance state.</p>
+  <div class="vikriti-grid" data-list="options"></div>
+</template>
+<template id="tpl-vikriti-card">
+  <div class="vikriti-card" data-action="selectVikriti">
+    <span class="vikriti-icon" data-fill="icon"></span>
+    <div class="vikriti-name" data-fill="name"></div>
+    <div class="vikriti-desc" data-fill="desc"></div>
+  </div>
+</template>
+<template id="tpl-step-wearable">
+  <div class="wearable-step">
+    <div class="field-group"><label class="field-label">Your Wearable Device</label><div class="device-chips" data-list="devices"></div></div>
+    <div id="wearable-inputs" class="wearable-inputs"><div class="wearable-hint-box" data-fill="hint"></div><div class="wearable-fields-grid" data-list="fields"></div></div>
+  </div>
+</template>
+<template id="tpl-wearable-chip"><div class="device-chip" data-action="selectWearable" data-fill="label"></div></template>
+<template id="tpl-wearable-field">
+  <div class="wearable-field-card">
+    <div class="wearable-field-label" data-fill="label"></div>
+    <div class="wearable-field-hint" data-fill="hint"></div>
+    <input type="number" step="any" data-action="setWFldInput" data-field="">
+  </div>
+</template>
+<!-- field-helpers.js — wearable hint copy -->
+<template id="tpl-wearable-hint">
+  <p class="wearable-hint-box__title">📊 Enter 30-day averages from your device app</p>
+  <p class="wearable-hint-box__sub">All fields optional — enter what is available in your app</p>
+</template>
+<template id="tpl-step-comorbidities">
+  <p class="comor-intro">Select your current status for each condition. Choose <em>Not Sure</em> if uncertain — your clinician will clarify during the consultation.</p>
+  <div class="comor-grid" data-list="conditions"></div>
+  <div class="comor-meds"><div class="section-label">Current Medications</div>
+    <div class="step-fam-hint">Select any medications you are currently taking. This helps clinicians interpret your scores accurately.</div>
+    <div class="cards cards--meds" data-list="meds"></div>
+  </div>
+</template>
+<template id="tpl-comor-row">
+  <div class="comor-row-card" data-fill="rowId">
+    <div class="comor-row-hdr"><span data-fill="icon"></span><span data-fill="name"></span></div>
+    <div class="comor-opts" data-list="opts"></div>
+  </div>
+</template>
+<template id="tpl-comor-opt"><div class="comor-opt-btn" data-action="setComordiity" data-fill="label"></div></template>
+
+<!-- TEMPLATES: results.js -->
+<template id="tpl-res-header">
+  <div class="results-header">
+    <div class="rh-greeting">Your Health Profile &amp; Progress</div>
+    <h2 data-fill="greeting"></h2>
+    <div class="rh-sub">Your personalised adaptive wellness assessment — EvaEraHealth Clinic, Gurugram</div>
+  </div>
+</template>
+<template id="tpl-res-composite">
+  <div class="composite-band composite-band--start">
+    <div class="composite-band__icon" data-fill="icon"></div>
+    <div class="cb-info">
+      <div class="cb-band" data-fill="band"></div>
+      <div class="cb-label" data-fill="msg"></div>
+      <div class="cb-modules" data-fill="modules"></div>
+    </div>
+  </div>
+</template>
+<template id="tpl-res-critical-banner">
+  <div class="res-critical-banner">
+    <span class="res-critical-banner__icon" data-fill="icon"></span>
+    <div>
+      <div class="res-critical-banner__title" data-fill="title"></div>
+      <div class="res-critical-banner__sub" data-fill="sub"></div>
+    </div>
+  </div>
+</template>
+<template id="tpl-res-psych-banner">
+  <div class="psychiatric-alert-banner">
+    <div class="pab-icon">🆘</div>
+    <div class="pab-body">
+      <h3>Immediate Support Available</h3>
+      <p>Our assessment has flagged areas needing urgent attention. Please reach out now.</p>
+      <div class="pab-num"><a href="tel:9152987821" class="pab-link">iCall: 9152987821</a></div>
+      <p class="pab-meta">Vandrevala 24/7: 1860-2662-345 · NIMHANS: 080-46110007</p>
+    </div>
+  </div>
+</template>
+<template id="tpl-res-redflag">
+  <div class="redflag-banner">
+    <div class="rf-icon">⚠️</div>
+    <div class="rf-text">
+      <strong>Clinical Red Flags Identified:</strong> <span data-fill="flags"></span>. <strong>Please consult a gynaecologist immediately.</strong>
+      <div class="rf-actions">
+        <div class="rf-btn rf-btn--danger rf-btn--display">📞 +91 80690 50000</div>
+        <button type="button" class="rf-btn rf-btn--rose" data-action="sendClinicEmail" data-contact-type="gyne" data-fill="clinicEmailLabel" data-email-prefix="✉️ "></button>
+      </div>
+    </div>
+  </div>
+</template>
+<template id="tpl-res-critical-p1">
+  <div class="res-critical-p1">
+    <div class="res-critical-p1__hdr"><span>🚨</span><div data-fill="title"></div></div>
+    <div data-list="flags"></div>
+    <div class="res-critical-p1__contact">Contact EvaEraHealth: +91 80690 50000</div>
+  </div>
+</template>
+<template id="tpl-res-critical-flag"><div class="res-critical-flag" data-fill="label"></div></template>
+<template id="tpl-res-critical-p2">
+  <div class="res-critical-p2">
+    <div class="res-critical-p2__title" data-fill="title"></div>
+    <div data-list="flags"></div>
+  </div>
+</template>
+<template id="tpl-res-ai-box">
+  <div class="ai-message-box">
+    <div class="amb-label">✨ Your Personalised Message</div>
+    <div class="amb-text" id="ai-message-text"><span class="ai-spinner"></span> Generating your personalised message…</div>
+  </div>
+</template>
+<template id="tpl-res-rings"><div class="rings-grid" data-list="rings"></div></template>
+<template id="tpl-res-ring-card">
+  <div class="ring-card">
+    <div class="rc-label" data-fill="label"></div>
+    <svg class="ring-svg" viewBox="0 0 80 80" data-fill="svg"></svg>
+    <div class="rc-score" data-fill="score"></div>
+    <div class="rc-desc" data-fill="desc"></div>
+  </div>
+</template>
+<template id="tpl-res-domain-panel">
+  <div class="res-domain-panel">
+    <h3>Clinical Domain Scores</h3>
+    <div data-list="rows"></div>
+    <div class="res-dosha-row" data-fill="dosha"></div>
+  </div>
+</template>
+<template id="tpl-res-score-row">
+  <div class="score-row">
+    <span class="score-label" data-fill="label"></span>
+    <div class="score-row__vals">
+      <span class="score-val" data-fill="val"></span>
+      <span class="score-band" data-fill="bandClass"></span>
+    </div>
+  </div>
+</template>
+<template id="tpl-res-findings">
+  <div class="res-findings-panel">
+    <h3>⚠️ Findings That Need Your Attention</h3>
+    <div class="res-findings-intro">These positive findings from your assessment are important for your health team to know about.</div>
+    <div class="res-findings-list" data-list="items"></div>
+  </div>
+</template>
+<template id="tpl-res-finding-item">
+  <div class="res-finding-item">
+    <span class="res-finding-item__icon" data-fill="icon"></span>
+    <div><div class="res-finding-item__title" data-fill="title"></div><div class="res-finding-item__note" data-fill="note"></div></div>
+  </div>
+</template>
+<template id="tpl-res-care-plan">
+  <div class="care-plan-section">
+    <h3>Your Personalised Care Plan</h3>
+    <div class="section-sub" data-fill="sub"></div>
+    <div class="care-cards" data-list="cards"></div>
+  </div>
+</template>
+<template id="tpl-res-care-card">
+  <div class="care-card">
+    <div class="cc-icon" data-fill="icon"></div>
+    <div class="cc-title" data-fill="title"></div>
+    <div class="cc-desc" data-fill="desc"></div>
+    <span class="cc-badge" data-fill="badge"></span>
+    <div class="cc-cta-host" data-fill="cta"></div>
+  </div>
+</template>
+<template id="tpl-res-wellness-card">
+  <div class="care-card mild">
+    <div class="cc-icon">✨</div>
+    <div class="cc-title">Wellness Maintenance</div>
+    <div class="cc-desc">Your results look positive. Continue your healthy lifestyle and schedule regular check-ins.</div>
+  </div>
+</template>
+<template id="tpl-res-book-panel">
+  <div class="res-book-panel">
+    <div class="res-book-panel__icon">📅</div>
+    <div class="res-book-panel__title">Ready to speak with a specialist?</div>
+    <div class="res-book-panel__sub">Book an online video consultation or in-person visit at EvaEraHealth Clinic, Gurugram.</div>
+    <button type="button" class="res-book-panel__btn" data-action="intShowBooking">📅 Book Appointment →</button>
+    <div class="res-book-panel__meta">Gynaecologist · Psychologist · Menopause Specialist · Ayurvedic Physician</div>
+  </div>
+</template>
+<template id="tpl-res-dpdp-panel">
+  <div class="res-dpdp-panel">
+    <div class="res-dpdp-panel__title">🔒 Your Data Rights — DPDP Act 2023</div>
+    <div class="res-dpdp-panel__grid">
+      <button type="button" class="res-dpdp-btn res-dpdp-btn--privacy" data-action="showPrivacyNotice">📋 Privacy Notice</button>
+      <button type="button" class="res-dpdp-btn res-dpdp-btn--delete" data-action="deleteMyData">🗑 Delete All My Data</button>
+      <button type="button" class="res-dpdp-btn res-dpdp-btn--export" data-action="exportMyData">📤 Export My Data (JSON)</button>
+      <a href="mailto:dpo@evaerahealth.in?subject=Data+Erasure+Request" class="res-dpdp-btn res-dpdp-btn--email">✉ Email DPO for Erasure</a>
+    </div>
+    <div class="res-dpdp-panel__note">Under DPDP Act 2023 §11–13, you have the right to access, correct and erase your personal data. DPO: dpo@evaerahealth.in</div>
+  </div>
+</template>
+<template id="tpl-res-cta-retake">
+  <button type="button" class="res-cta-btn res-cta-btn--outline" data-action="resRetake">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+    Retake Assessment
+  </button>
+</template>
+<template id="tpl-res-cta-download">
+  <button type="button" class="res-cta-btn res-cta-btn--navy" data-action="resDownload">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download My Report
+  </button>
+</template>
+<template id="tpl-res-cta-send">
+  <button type="button" class="res-cta-btn res-cta-btn--teal" data-action="resSendReport">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+    Send Report to Email / WhatsApp
+  </button>
+</template>
+<template id="tpl-res-cta-row"><div class="res-cta-row" data-list="buttons"></div></template>
+<template id="tpl-res-cta-btn"><button type="button" class="res-cta-btn" data-action="resCta" data-fill="label"></button></template>
+<template id="tpl-res-float-book">
+  <div id="results-float-book" class="res-float-book">
+    <button type="button" class="res-float-book__btn" data-action="intShowBooking"><span>📅</span> Book Appointment</button>
+  </div>
+</template>
+<template id="tpl-res-disclaimer">
+  <div class="res-disclaimer-panel">
+    <div class="res-disclaimer-panel__hdr">
+      <span>⚕️</span>
+      <div>
+        <div class="res-disclaimer-panel__title">AI-Generated Report — Medical Disclaimer</div>
+        <div class="res-disclaimer-panel__text">Generated by EvaEraHealth AI (Claude, Anthropic). <strong>Not a medical diagnosis.</strong> All insights must be reviewed by a qualified clinician before any action. For emergencies, call 112.</div>
+      </div>
+    </div>
+    <div class="res-disclaimer-panel__badges">
+      <span class="res-disclaimer-badge res-disclaimer-badge--ai">🤖 AI Generated</span>
+      <span class="res-disclaimer-badge res-disclaimer-badge--dpdp">🔒 DPDP Compliant</span>
+      <span class="res-disclaimer-badge res-disclaimer-badge--clin">👩‍⚕️ Clinician Review Required</span>
+    </div>
+  </div>
+</template>
+<template id="tpl-res-footer"><p class="res-footer-note">app.evaerahealth.com · EvaEraHealth Clinic, Gurugram Flagship Center · DPDP Act 2023 Compliant</p></template>
+
+<!-- send-report.js — Send wellness report email/WhatsApp modal -->
+<template id="tpl-send-report-overlay">
+  <div id="send-report-overlay" class="sr-overlay">
+    <div id="send-report-card" class="sr-card">
+      <div class="sr-header">
+        <button type="button" class="sr-header__close" data-action="srClose">✕</button>
+        <div class="sr-header__icon">📧</div>
+        <div class="sr-header__title">Send Your Wellness Report</div>
+        <div class="sr-header__sub">Receive a beautiful copy directly in your inbox</div>
+      </div>
+      <div class="sr-tabs">
+        <div class="sr-tab active" id="sr-tab-email" data-action="srSwitchTab" data-tab="email">✉️ Email</div>
+        <div class="sr-tab" id="sr-tab-wa" data-action="srSwitchTab" data-tab="whatsapp">💬 WhatsApp</div>
+      </div>
+      <div class="sr-body">
+        <div id="sr-panel-email">
+          <div class="sr-field">
+            <label class="sr-field__label">Email Address</label>
+            <input id="sr-email-input" class="sr-input" type="email" placeholder="your@email.com">
+          </div>
+          <div class="sr-preview">
+            <div class="sr-preview__title">📋 What's included in your report</div>
+            <div class="sr-preview__grid">
+              <div class="sr-preview__item"><span>✨</span><span>AI Wellness Message</span></div>
+              <div class="sr-preview__item"><span>📊</span><span>All Domain Scores</span></div>
+              <div class="sr-preview__item"><span>🎯</span><span>Care Recommendations</span></div>
+              <div class="sr-preview__item"><span>🌿</span><span>Ayurvedic Insights</span></div>
+              <div class="sr-preview__item"><span>📈</span><span>Score Visualisations</span></div>
+              <div class="sr-preview__item"><span>🏥</span><span>Clinic Contact Info</span></div>
+            </div>
+          </div>
+          <div id="sr-email-status" class="sr-email-status"></div>
+          <button type="button" class="sr-btn-send" id="sr-send-btn" data-action="srSendEmail">📧 Send Report to Email</button>
+        </div>
+        <div id="sr-panel-wa" class="is-hidden">
+          <div class="sr-wa-info">
+            <div class="sr-wa-info__title">💬 Share via WhatsApp</div>
+            <div class="sr-wa-info__text">WhatsApp will open with a pre-filled message containing your wellness summary and a link to book a consultation.</div>
+          </div>
+          <div class="sr-field">
+            <label class="sr-field__label">Mobile Number (optional)</label>
+            <input id="sr-wa-input" class="sr-input" type="tel" placeholder="+91 98765 43210">
+            <div class="sr-wa-hint">Leave blank to open WhatsApp and choose a contact</div>
+          </div>
+          <button type="button" class="sr-btn-send sr-btn-send--wa" data-action="srSendWhatsApp">💬 Open in WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- field-helpers.js — step loading fallback -->
+<template id="tpl-step-loading"><p class="step-loading">Section loading...</p></template>
+
+<!-- hcp-portal.js — patient detail & assessments layout -->
+<template id="tpl-hcp-assessments-layout">
+  <div class="hcp-assess-grid">
+    <div id="patient-list" class="hcp-assess-list"></div>
+    <div id="patient-detail" class="hcp-assess-detail">
+      <div class="hcp-select-patient-empty">
+        <div class="hcp-select-patient-empty__icon">🩺</div>
+        <div class="hcp-select-patient-empty__title">Select a Patient</div>
+        <div class="hcp-select-patient-empty__sub">Choose from the list to view the full assessment report</div>
+      </div>
+    </div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-shell">
+  <div class="pd-panel">
+    <div data-fill="header"></div>
+    <div data-list="alerts"></div>
+    <div data-fill="tabBar"></div>
+    <div class="pd-body" data-list="tabPanels"></div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-header">
+  <div class="pd-header">
+    <div>
+      <h2><span data-fill="name"></span><span class="hcp-pd-crisis-icon" data-fill="crisisIcon"></span></h2>
+      <div class="pd-meta" data-fill="meta"></div>
+    </div>
+    <div class="pd-header-right">
+      <span class="tag" data-fill="tagClass"></span>
+      <div class="hcp-pd-assess-date" data-fill="assessDate"></div>
+    </div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-alert-psych">
+  <div class="hcp-alert-banner"><div class="hab-icon">🚨</div><div class="hab-body"><strong>PSYCHIATRIC ALERT</strong> — PHQ-9 Item 9 positive. Immediate clinical follow-up required. iCall: 9152987821 · Vandrevala: 1860-2662-345</div></div>
+</template>
+<template id="tpl-hcp-pd-alert-flags">
+  <div class="hcp-alert-banner hcp-alert-banner--flags"><div class="hab-icon">⚠️</div><div class="hab-body hcp-alert-banner__body--warn"><strong>Red Flags: </strong><span data-fill="flagsText"></span></div></div>
+</template>
+<template id="tpl-hcp-pd-tab-bar"><div class="pd-tabs" data-list="tabs"></div></template>
+<template id="tpl-hcp-pd-tab"><div class="pd-tab" data-action="hcpSwitchPDTab" data-tab-index=""><span data-fill="label"></span></div></template>
+<template id="tpl-hcp-pd-tab-0">
+  <div class="pd-tab-content" id="tab0">
+    <div data-fill="composite"></div>
+    <div class="metrics-grid" data-list="metrics"></div>
+    <div class="section-hcp"><h4>Patient Profile</h4><div data-list="profileRows"></div></div>
+    <div class="section-hcp hcp-comorb-section is-hidden"><h4>Comorbidities</h4><div data-list="comorbRows"></div></div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-composite">
+  <div class="section-hcp hcp-composite-section">
+    <div class="hcp-composite-score" data-fill="score"></div>
+    <div class="hcp-composite-label">Modified MenQOL Composite Score</div>
+    <div class="hcp-composite-band" data-fill="band"></div>
+    <div class="mc-bar hcp-composite-bar"><div class="mc-bar-fill" data-fill="barFill"></div></div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-metric-card">
+  <div class="metric-card">
+    <div class="mc-label" data-fill="label"></div>
+    <div class="mc-value" data-fill="value"></div>
+    <div class="mc-sub" data-fill="sub"></div>
+    <div class="mc-bar"><div class="mc-bar-fill" data-fill="barFill"></div></div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-score-row">
+  <div class="score-row"><span class="score-label" data-fill="label"></span><span class="score-val" data-fill="value"></span></div>
+</template>
+<template id="tpl-hcp-pd-wearable-section">
+  <div class="section-hcp"><h4 data-fill="title"></h4><div data-list="metricRows"></div></div>
+</template>
+<template id="tpl-hcp-pd-wearable-alert">
+  <div class="hcp-wearable-alert"><div class="hcp-wearable-alert__title" data-fill="title"></div><div data-list="items"></div></div>
+</template>
+<template id="tpl-hcp-pd-wearable-alert-item"><div class="hcp-wearable-alert__item" data-fill="text"></div></template>
+<template id="tpl-hcp-pd-tab-1">
+  <div class="pd-tab-content" id="tab1" style="display:none"><div class="hcp-tab1-pad">
+    <div data-fill="redFlags"></div>
+    <div data-fill="clinicalNote"></div>
+  </div></div>
+</template>
+<template id="tpl-hcp-pd-red-flags">
+  <div class="hcp-red-flags-box"><div class="hcp-red-flags-box__title">🚨 RED FLAGS</div><div data-list="items"></div></div>
+</template>
+<template id="tpl-hcp-pd-red-flag-item"><div class="hcp-red-flag-item" data-fill="text"></div></template>
+<template id="tpl-hcp-pd-clinical-note">
+  <div class="hcp-clinical-note"><div class="hcp-clinical-note__title">📝 LAST CLINICAL NOTE</div><div class="hcp-clinical-note__body" data-fill="note"></div></div>
+</template>
+<template id="tpl-hcp-pd-tab-2">
+  <div class="pd-tab-content" id="tab2" style="display:none">
+    <table class="instrument-table"><thead><tr><th>Instrument</th><th>Score</th><th>Bar</th><th>Band</th></tr></thead><tbody data-list="rows"></tbody></table>
+  </div>
+</template>
+<template id="tpl-hcp-pd-scores-row">
+  <tr><td data-fill="label"></td><td data-fill="score"></td><td data-fill="bar"></td><td data-fill="band"></td></tr>
+</template>
+<template id="tpl-hcp-pd-score-bar"><div class="hcp-score-bar"><div class="hcp-score-bar__fill" data-fill="fill"></div></div></template>
+<template id="tpl-hcp-pd-tab-3">
+  <div class="pd-tab-content" id="tab3" style="display:none">
+    <div class="hcp-triage-count" data-fill="countLabel"></div>
+    <div class="triage-list" data-list="items"></div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-triage-item">
+  <div class="triage-item"><div class="ti-icon" data-fill="icon"></div><div class="ti-body"><div class="ti-action" data-fill="action"></div><div class="ti-rules" data-fill="rules"></div></div><div class="ti-sev" data-fill="sev"></div></div>
+</template>
+<template id="tpl-hcp-pd-tab-4">
+  <div class="pd-tab-content" id="tab4" style="display:none">
+    <div class="hcp-care-cards" data-list="cards"></div>
+    <div class="hcp-care-contact-grid">
+      <div class="hcp-care-contact hcp-care-contact--phone hcp-care-contact--display">📞 +91 80690 50000</div>
+      <a href="mailto:clinic@evaerahealth.in" class="hcp-care-contact hcp-care-contact--email">✉ Email Clinic</a>
+    </div>
+    <div class="hcp-notes-section">
+      <div class="hcp-notes-section__label">Post-Consultation Clinical Notes</div>
+      <textarea id="hcp-note-area" class="hcp-note-area" placeholder="Enter clinical observations, follow-up plan, prescriptions..."></textarea>
+      <div class="hcp-notes-actions">
+        <button type="button" class="hcp-note-save-btn" data-action="hcpSaveNote">💾 Save Note</button>
+        <span data-fill="apptBadge"></span>
+        <span data-fill="completeBtn"></span>
+      </div>
+    </div>
+  </div>
+</template>
+<template id="tpl-hcp-pd-care-card">
+  <div class="hcp-care-card"><div class="hcp-care-card__title" data-fill="title"></div><div class="hcp-care-card__desc" data-fill="desc"></div><span class="hcp-care-card__sev" data-fill="sev"></span></div>
+</template>
+<template id="tpl-hcp-pd-tab-5">
+  <div class="pd-tab-content" id="tab5" style="display:none">
+    <div class="download-bar">
+      <button type="button" class="btn-download" data-action="hcpDownloadReport">⬇ Download Report</button>
+      <button type="button" class="btn-download" data-action="hcpDownloadJSON">{ } Export JSON</button>
+      <button type="button" class="hcp-book-btn" data-action="hcpBookOnBehalf">📅 Book Appointment for Patient</button>
+    </div>
+    <pre class="hcp-raw-json" data-fill="json"></pre>
+  </div>
+</template>
+<template id="tpl-hcp-info-row"><div class="hcp-info-row"><span class="hcp-info-label" data-fill="label"></span><span class="hcp-info-val" data-fill="value"></span></div></template>
+<template id="tpl-hcp-stat-card"><div class="hcp-stat-card"><div class="hcp-stat-num" data-fill="num"></div><div class="hcp-stat-lbl" data-fill="lbl"></div></div></template>
+<template id="tpl-hcp-meta-pill"><span class="hcp-meta-pill" data-fill="text"></span></template>
+
+<!-- patient-dashboard.js — dashboard panels -->
+<template id="tpl-pd-welcome">
+  <div class="pd-welcome">
+    <div class="pd-welcome-name" data-fill="name"></div>
+    <div class="pd-welcome-sub" data-fill="sub"></div>
+    <div class="pd-pills" data-list="pills"></div>
+    <div class="pd-comp-row">
+      <div class="pd-comp-left">
+        <div class="pd-comp-label">Composite Score</div>
+        <div class="pd-comp-score" data-fill="score"></div>
+        <div class="pd-comp-band" data-fill="band"></div>
+      </div>
+      <div class="pd-comp-right">
+        <div class="pd-comp-bar-wrap"><div class="pd-comp-bar" data-fill="barFill"></div></div>
+        <div class="pd-comp-meta" data-fill="meta1"></div>
+        <div class="pd-comp-meta pd-comp-meta--spaced" data-fill="meta2"></div>
+      </div>
+    </div>
+    <div id="pd-visit-graph-slot"></div>
+  </div>
+</template>
+<template id="tpl-pd-pill"><div class="pd-pill" data-fill="text"></div></template>
+<template id="tpl-pd-tabs-row"><div class="pd-tabs-row" data-list="tabs"></div></template>
+<template id="tpl-pd-tab"><div class="pd-tab" data-action="pdActivateTab" data-tab-index=""><span data-fill="label"></span></div></template>
+<template id="tpl-pd-panel"><div class="pd-panel"><div class="pd-body" data-fill="body"></div></div></template>
+<template id="tpl-pd-domain-card">
+  <div class="pd-dm">
+    <div class="pd-dm-label" data-fill="label"></div>
+    <div><span class="pd-dm-val" data-fill="val"></span><span class="pd-dm-max" data-fill="max"></span></div>
+    <div class="pd-dm-band" data-fill="band"></div>
+    <div class="pd-mini-bar"><div class="pd-mini-fill" data-fill="barFill"></div></div>
+  </div>
+</template>
+<template id="tpl-pd-score-row">
+  <tr>
+    <td class="pd-score-row__label" data-fill="label"></td>
+    <td class="pd-score-row__score" data-fill="score"></td>
+    <td class="pd-score-row__bar" data-fill="bar"></td>
+    <td class="pd-score-row__band" data-fill="band"></td>
+  </tr>
+</template>
+<template id="tpl-pd-triage-item">
+  <div class="pd-triage-item">
+    <div class="pd-triage-dot" data-fill="dot"></div>
+    <div class="pd-triage-body"><div class="pd-triage-action" data-fill="action"></div><div class="pd-triage-desc" data-fill="desc"></div></div>
+    <span class="pd-triage-badge" data-fill="badge"></span>
+  </div>
+</template>
+<template id="tpl-pd-care-card">
+  <div class="pd-care-card"><div class="pd-care-card__hdr"><div class="pd-care-card__dot" data-fill="dot"></div><div class="pd-care-card__title" data-fill="title"></div><span class="pd-care-card__badge" data-fill="badge"></span></div><div class="pd-care-card__desc" data-fill="desc"></div></div>
+</template>
+<template id="tpl-pd-appt-item">
+  <div class="pd-appt-item">
+    <div class="pd-appt-item__row">
+      <div class="pd-appt-date"><div class="pd-appt-date__day" data-fill="day"></div><div class="pd-appt-date__mon" data-fill="mon"></div></div>
+      <div class="pd-appt-item__info"><div class="pd-appt-item__name" data-fill="name"></div><div class="pd-appt-item__meta" data-fill="meta"></div></div>
+      <span class="pd-appt-item__status" data-fill="status"></span>
+    </div>
+    <div data-fill="actions"></div>
+  </div>
+</template>
+<template id="tpl-pd-wear-row">
+  <div class="pd-wear-row"><div class="pd-wear-row__label" data-fill="label"></div><div class="pd-wear-row__val" data-fill="val"></div><span class="pd-wear-row__badge" data-fill="badge"></span></div>
+</template>
+<template id="tpl-pd-retake-cta">
+  <div class="pd-retake-cta">
+    <div class="pd-retake-cta__title">Ready for your next check-in?</div>
+    <div class="pd-retake-cta__sub">Reassess every 3 months to track your progress</div>
+    <button type="button" class="pd-retake-cta__btn" data-action="pdRetakeAssessment">↻ Start new assessment</button>
+  </div>
+</template>
+<template id="tpl-pd-empty"><div class="pd-empty" data-fill="text"></div></template>
+<!-- patient-dashboard.js — card header -->
+<template id="tpl-pd-card-hdr">
+  <div class="pd-card-hdr">
+    <span class="pd-card-title" data-fill="title"></span>
+    <span class="pd-card-meta" data-fill="meta"></span>
+    <span class="pd-badge-rose" data-fill="badge"></span>
+  </div>
+</template>
+<!-- patient-dashboard.js — scores table head -->
+<template id="tpl-pd-scores-thead">
+  <thead><tr><th class="pd-scores-th">Instrument</th><th class="pd-scores-th">Score</th><th class="pd-scores-th">Bar</th><th class="pd-scores-th">Band</th></tr></thead>
+</template>
+<!-- patient-dashboard.js — score value cell -->
+<template id="tpl-pd-scores-score"><span class="pd-scores-val" data-fill="val"></span><span class="pd-scores-max" data-fill="max"></span></template>
+<!-- patient-dashboard.js — score bar cell -->
+<template id="tpl-pd-scores-bar"><div class="pd-mini-bar pd-mini-bar--fixed"><div class="pd-mini-fill"></div></div></template>
+<!-- patient-dashboard.js — care team contacts -->
+<template id="tpl-pd-care-contacts">
+  <div class="pd-care-contact pd-care-contact--phone pd-care-contact--display">📞 Call Clinic · +91 80690 50000</div>
+  <button type="button" class="pd-care-contact pd-care-contact--email" data-action="sendClinicEmail" data-contact-type="general">✉ Email Clinic</button>
+</template>
+<!-- patient-dashboard.js — appointment action buttons -->
+<template id="tpl-pd-appt-actions">
+  <div class="pd-appt-actions">
+    <div class="pd-appt-actions__hdr">
+      <span class="pd-appt-actions__label">Manage Appointment</span>
+      <span class="pd-appt-actions__hint is-hidden" data-fill="windowOpen"></span>
+      <span class="pd-appt-actions__locked is-hidden" data-fill="windowClosed"></span>
+    </div>
+    <div class="pd-appt-actions__btns">
+      <button type="button" class="pd-appt-btn pd-appt-btn--cancel" data-mgmt-action="cancel">✕ Cancel</button>
+      <button type="button" class="pd-appt-btn pd-appt-btn--reschedule" data-mgmt-action="reschedule">📅 Reschedule</button>
+      <button type="button" class="pd-appt-btn pd-appt-btn--mode" data-mgmt-action="mode">🔄 Change Mode</button>
+    </div>
+  </div>
+</template>
+<!-- patient-dashboard.js — wearable correlations title -->
+<template id="tpl-pd-wear-corr-title"><div class="pd-wear-corr__title">Clinical correlations</div></template>
+<!-- patient-dashboard.js — wearable empty state -->
+<template id="tpl-pd-wear-empty"><div class="pd-card-body pd-empty">No wearable data linked.<br>Connect your device during reassessment.</div></template>
+<template id="tpl-pd-book-btn"><button type="button" class="pd-book-btn" data-action="pdBookAppointment">+ Book New Appointment</button></template>
+<template id="tpl-pd-hcp-note">
+  <div class="pd-hcp-note">
+    <div class="pd-hcp-note-by" data-fill="by"></div>
+    <div class="pd-hcp-note-body" data-fill="note"></div>
+  </div>
+</template>
+
+<!-- admin-slots.js — week grid -->
+<template id="tpl-sl-week-grid">
+  <div class="sl-wk-grid">
+    <div data-fill="topBar"></div>
+    <div data-fill="legend"></div>
+    <div data-fill="table"></div>
+    <div data-fill="summary"></div>
+  </div>
+</template>
+<template id="tpl-sl-topbar">
+  <div class="sl-wk-topbar">
+    <div class="sl-wk-nav">
+      <button type="button" class="sl-wk-nav-btn" data-action="slPrevWk">← Prev</button>
+      <span class="sl-wk-label" data-fill="weekLabel"></span>
+      <button type="button" class="sl-wk-nav-btn" data-action="slNextWk">Next →</button>
+    </div>
+    <button type="button" class="sl-wk-save-btn" data-action="slSaveWeek">✓ Save week</button>
+  </div>
+</template>
+<template id="tpl-sl-legend"><div class="sl-wk-legend" data-list="items"></div></template>
+<template id="tpl-sl-legend-item"><div class="sl-wk-legend-item"><span class="sl-wk-legend-dot" data-fill="dotColor"></span><span data-fill="label"></span></div></template>
+<template id="tpl-sl-week-table"><div class="sl-wk-table-wrap"><table class="sl-wk-table"><thead><tr data-list="dayHeaders"></tr></thead><tbody data-list="rows"></tbody></table></div></template>
+<template id="tpl-sl-week-th"><th class="sl-wk-th"><span data-fill="day"></span><br><span class="sl-wk-th__date" data-fill="date"></span></th></template>
+<template id="tpl-sl-week-row">
+  <tr class="sl-wk-row">
+    <td class="sl-wk-clinician"><div class="sl-wk-clinician__name" data-fill="name"></div><div class="sl-wk-clinician__spec" data-fill="spec"></div></td>
+  </tr>
+</template>
+<template id="tpl-sl-week-cell">
+  <td class="sl-wk-cell"><div class="sl-wk-cell-inner" data-action="slOpenCell"></div></td>
+</template>
+<template id="tpl-sl-cell-badge">
+  <div class="sl-wk-cell-badge">
+    <span class="sl-wk-badge" data-fill="label"></span>
+    <div class="sl-wk-slot-count" data-fill="slotCount"></div>
+  </div>
+</template>
+<template id="tpl-sl-empty-cons"><div class="sl-wk-empty">No active consultants. Add consultants first.</div></template>
+<template id="tpl-sl-summary"><div class="sl-wk-summary" data-list="chips"></div></template>
+<template id="tpl-sl-summary-chip"><div class="sl-wk-summary-chip" data-fill="text"></div></template>
+
+<!-- integration.js — booking confirm details -->
+<template id="tpl-bk-confirm-det"><div class="bk-confirm-det-grid" data-list="rows"></div></template>
+<template id="tpl-bk-confirm-det-row"><div class="bk-confirm-det-row"><span data-fill="label"></span><span data-fill="value"></span></div></template>
+<template id="tpl-int-meet-link"><a class="int-meet-link" data-fill="href" target="_blank" rel="noopener"></a></template>
+<!-- hcp-portal.js — appointments tab shell + loading -->
+<template id="tpl-hcp-appt-panel">
+  <div class="hcp-appt-wrap">
+    <div class="hcp-appt-header"><div class="hcp-appt-title">My Appointments</div></div>
+    <div id="hcp-appt-list" class="hcp-appt-list">
+      <div class="hcp-appt-loading">
+        <div class="hcp-appt-loading__icon">⏳</div>
+        <div class="hcp-appt-loading__text">Fetching appointments…</div>
+      </div>
+    </div>
+  </div>
+</template>
+<!-- hcp-portal.js — appointments empty state -->
+<template id="tpl-hcp-appt-empty">
+  <div class="hcp-appt-empty">
+    <div class="hcp-appt-empty__icon">📅</div>
+    <div class="hcp-appt-empty__title">No appointments yet</div>
+    <div class="hcp-appt-empty__sub">Appointments scheduled for you will appear here</div>
+  </div>
+</template>
+<!-- hcp-portal.js — appointment status badge -->
+<template id="tpl-hcp-appt-status"><span class="hcp-appt-status" data-fill="label"></span></template>
+<template id="tpl-hcp-appt-group-label"><div class="hcp-appt-group-label" data-fill="label"></div></template>
+<template id="tpl-hcp-appt-card">
+  <div class="hcp-appt-card">
+    <div class="hcp-appt-card__row">
+      <div class="hcp-appt-card__date">
+        <div class="hcp-appt-card__weekday" data-fill="weekday"></div>
+        <div class="hcp-appt-card__day" data-fill="day"></div>
+        <div class="hcp-appt-card__month" data-fill="month"></div>
+      </div>
+      <div class="hcp-appt-card__main">
+        <div class="hcp-appt-card__name-row"><span class="hcp-appt-card__dot"></span><span class="hcp-appt-card__name" data-fill="name"></span></div>
+        <div class="hcp-appt-card__email" data-fill="email"></div>
+        <div class="hcp-appt-card__tags" data-list="tags"></div>
+        <div class="hcp-appt-card__status-row" data-list="status"></div>
+      </div>
+    </div>
+    <div class="hcp-appt-card__notes" data-fill="notes"></div>
+    <div class="hcp-appt-card__meet" data-fill="meet"></div>
+    <div class="hcp-appt-card__actions" data-fill="actions"></div>
+  </div>
+</template>
+
+<!-- results.js — download/print wellness report body -->
+<template id="tpl-print-report-body">
+  <div class="print-report-header">
+    <div class="print-report-header__brand">🌸 EvaEraHealth</div>
+    <div class="print-report-header__date" data-fill="dateLine"></div>
+  </div>
+  <h2 class="print-report-greeting" data-fill="greeting"></h2>
+  <div class="print-report-score-box">
+    <div class="print-report-score-box__label">Composite Score</div>
+    <div class="print-report-score-box__value" data-fill="composite"></div>
+    <div class="print-report-score-box__band" data-fill="band"></div>
+  </div>
+  <div class="print-report-ai-msg" data-fill="aiMsg"></div>
+  <h3>Clinical Domain Scores</h3>
+  <table><tbody data-list="scoreRows"></tbody></table>
+  <div data-fill="triageHost"></div>
+  <p class="print-report-footer">AI-assisted wellness report — not a medical diagnosis. EvaEraHealth Clinic, Gurugram Flagship Center. DPDP Act 2023 compliant.</p>
+</template>
+<template id="tpl-print-report-score-row">
+  <tr><td class="print-report-score-label" data-fill="label"></td><td class="print-report-score-val" data-fill="val"></td></tr>
+</template>
+<template id="tpl-print-report-triage-wrap">
+  <h3>Care Plan / Recommendations</h3>
+  <ul class="print-report-triage-list" data-list="items"></ul>
+</template>
+<template id="tpl-print-report-triage-item">
+  <li class="print-report-triage-item"><span data-fill="action"></span> <span class="print-report-triage-sev" data-fill="sev"></span></li>
+</template>
+
+<script src="js/config.js?v=5"></script>
+<script src="js/state.js"></script>
+<script src="js/utilities.js?v=15"></script>
+<script src="js/consent.js?v=9"></script>
+<script src="js/navigation.js?v=9"></script>
+<script src="js/field-helpers.js?v=10"></script>
+<script src="js/hardstop.js?v=2"></script>
+<script src="js/scoring.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/hcp-portal.js?v=25"></script>
+<script src="js/wearable.js"></script>
+<script src="js/integration.js?v=20"></script>
+<script src="js/supabase.js?v=7"></script>
+<script src="js/results.js?v=3"></script>
+<script src="js/send-report.js?v=1"></script>
+<script src="js/patient-dashboard.js?v=13"></script>
+<script src="js/admin-slots.js?v=4"></script>
+<script src="js/admin-2fa.js?v=2"></script>
+<script src="js/hcp-portal-auth.js?v=3"></script>
+</body>
+</html>

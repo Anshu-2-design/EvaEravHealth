@@ -1,0 +1,148 @@
+/* Sections:
+     - CSS Variables (:root)
+     - Reset & Base
+     - Navigation
+     - Auth Screen
+     - Consent Screen
+     - Form / Assessment Screen
+     - Results Screen
+     - HCP Portal
+     - Admin Portal
+     - Modals & Overlays
+     - Animations & Loading
+     - Responsive */
+
+
+:root {
+  --rose:#C2185B;
+  --rose-lt:#F8BBD9;
+  --rose-deep:#880E4F;
+  --teal:#00695C;
+  --teal-lt:#B2DFDB;
+  --gold:#F9A825;
+  --gold-lt:#FFF8E1;
+  --navy:#0D1B2A;
+  --navy-mid:#1B2B3A;
+  --navy-lt:#243447;
+  --slate:#4A5568;
+  --mist:#F7F3F0;
+  --white:#FFFFFF;
+  --danger:#D32F2F;
+  --danger-lt:#FFEBEE;
+  --warn:#E65100;
+  --warn-lt:#FFF3E0;
+  --ok:#2E7D32;
+  --ok-lt:#E8F5E9;
+  --purple:#6A1B9A;
+  --purple-lt:#F3E5F5;
+  --r:12px;
+  --r-sm:8px;
+  --r-lg:20px;
+  --shadow:0 4px 24px rgba(0,0,0,0.10);
+  --shadow-lg:0 8px 40px rgba(0,0,0,0.16);
+}
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--mist);
+  color:var(--navy);
+  min-height:100vh
+}
+
+a {
+  color:inherit;
+  text-decoration:none
+}
+
+.screen {
+  display:none !important;
+  min-height:calc(100vh - 64px)
+}
+
+.screen.active {
+  display:block !important
+}
+
+#auth-screen.active {
+  display:flex !important
+}
+
+#loading-screen.active {
+  display:flex !important
+}
+
+#consent-screen.active {
+  display:flex !important
+}
+
+#hcp-portal-screen.active {
+  display:block !important
+}
+
+#adm-login-screen.active {
+  display:block !important
+}
+
+#adm-portal-screen.active {
+  display:block !important
+}
+
+#patient-dashboard-screen.active {
+  display:block !important
+}
+
+#hcp-auth-screen.active {
+  display:flex !important
+}
+
+.nav {
+  background:var(--rose-deep);
+  padding:0 24px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,0.2)
+}
+
+.nav-brand {
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:0.5px
+}
+
+.nav-brand span {
+  color:var(--rose-lt)
+}
+
+.nav-actions {
+  display:flex;
+  gap:8px
+}
+
+.nav-btn {
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.2);
+  padding:8px 16px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+  transition:all 0.2s
+}
+
+.nav-btn:hover {
+  background:rgba(255,255,255,0.22)
+}

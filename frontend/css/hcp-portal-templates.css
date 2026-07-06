@@ -1,0 +1,122 @@
+/* MOVED from hcp-portal.js — shell & list row templates */
+
+.hcp-shell-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.hcp-patient-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.22);
+}
+.hcp-patient-empty__icon { font-size: 28px; margin-bottom: 8px; }
+.hcp-patient-empty__text { font-size: 12px; }
+
+.hcp-assess-loading {
+  padding: 32px 16px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.hcp-appt-row-patient { font-weight: 600; color: #0F1E3C; }
+.hcp-appt-row-datetime { color: #475569; }
+.hcp-appt-row-mode { color: #475569; }
+
+/* MOVED from hcp-portal.js — assessments layout & patient detail */
+.hcp-assess-grid { display: grid; grid-template-columns: 300px 1fr; height: calc(100vh - 46px); }
+.hcp-assess-list { overflow-y: auto; border-right: 1px solid rgba(255,255,255,0.06); }
+.hcp-assess-detail { overflow-y: auto; }
+.hcp-select-patient-empty { text-align: center; padding: 80px 40px; }
+.hcp-select-patient-empty__icon { font-size: 64px; margin-bottom: 20px; opacity: 0.2; }
+.hcp-select-patient-empty__title { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.4); margin-bottom: 10px; font-family: Cormorant Garamond, serif; }
+.hcp-select-patient-empty__sub { font-size: 13px; color: rgba(255,255,255,0.2); }
+.hcp-pd-crisis-icon { color: #EF5350; font-size: 13px; }
+.hcp-pd-assess-date { font-size: 11px; color: rgba(255,255,255,0.25); }
+.hcp-alert-banner--flags { border-color: rgba(255,152,0,0.4); background: rgba(255,152,0,0.09); }
+.hcp-alert-banner__body--warn { color: #FFCC80; }
+.hcp-composite-section { text-align: center; padding: 18px; }
+.hcp-composite-score { font-size: 54px; font-weight: 900; line-height: 1; }
+.hcp-composite-score span { font-size: 18px; color: rgba(255,255,255,0.22); }
+.hcp-composite-label { font-size: 13px; font-weight: 700; color: #fff; margin: 6px 0 2px; }
+.hcp-composite-band { font-size: 11px; color: rgba(255,255,255,0.35); }
+.hcp-composite-bar { max-width: 220px; margin: 10px auto 0; }
+.hcp-comorb-section.is-hidden { display: none; }
+.hcp-wearable-alert { background: rgba(239,83,80,0.12); border: 1px solid rgba(239,83,80,0.3); border-radius: 8px; padding: 10px; margin-top: 8px; }
+.hcp-wearable-alert__title { font-size: 11px; font-weight: 800; color: #EF5350; margin-bottom: 5px; }
+.hcp-wearable-alert__item { font-size: 11px; color: #FFCDD2; padding: 2px 0; }
+.hcp-tab1-pad { padding: 14px; }
+.hcp-red-flags-box { background: rgba(211,47,47,0.12); border: 1px solid rgba(211,47,47,0.35); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+.hcp-red-flags-box__title { font-size: 11px; font-weight: 800; color: #EF5350; margin-bottom: 5px; }
+.hcp-red-flag-item { font-size: 12px; color: #FFCDD2; padding: 2px 0; }
+.hcp-clinical-note { background: rgba(0,188,212,0.08); border: 1px solid rgba(0,188,212,0.2); border-radius: 10px; padding: 12px; }
+.hcp-clinical-note__title { font-size: 11px; font-weight: 800; color: #00BCD4; margin-bottom: 5px; }
+.hcp-clinical-note__body { font-size: 12px; color: rgba(255,255,255,0.6); white-space: pre-wrap; line-height: 1.5; }
+.hcp-score-bar { width: 80px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.hcp-score-bar__fill { height: 100%; border-radius: 2px; }
+.hcp-triage-count { font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.hcp-care-cards { display: flex; flex-direction: column; gap: 8px; }
+.hcp-care-card { border-radius: 12px; padding: 14px 16px; }
+.hcp-care-card__title { font-size: 13px; font-weight: 800; color: #fff; text-transform: capitalize; margin-bottom: 3px; }
+.hcp-care-card__desc { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+.hcp-care-card__sev { padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; display: inline-block; }
+.hcp-care-contact-grid { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hcp-care-contact { text-align: center; padding: 12px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 13px; }
+.hcp-care-contact--phone { background: var(--rose-deep); color: #fff; }
+.hcp-care-contact--display { cursor: default; pointer-events: none; user-select: text; }
+.hcp-care-contact--email { background: rgba(0,188,212,0.13); color: #00BCD4; border: 1px solid rgba(0,188,212,0.3); }
+.hcp-notes-section { margin-top: 14px; }
+.hcp-notes-section__label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+.hcp-note-area { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px; color: rgba(255,255,255,0.8); font-size: 12px; resize: vertical; min-height: 90px; outline: none; font-family: inherit; line-height: 1.5; box-sizing: border-box; }
+.hcp-notes-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; align-items: center; }
+.hcp-note-save-btn { padding: 7px 16px; background: rgba(0,188,212,0.15); border: 1px solid rgba(0,188,212,0.3); color: #00BCD4; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+.hcp-book-btn { background: linear-gradient(135deg,#C0305A,#9C1B43); color: #fff; border: none; border-radius: 10px; padding: 9px 16px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.hcp-raw-json { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px; font-size: 11px; color: rgba(255,255,255,0.5); overflow: auto; max-height: 400px; line-height: 1.5; }
+.hcp-triage-empty { text-align: center; padding: 40px; color: rgba(255,255,255,0.22); font-size: 13px; }
+.hcp-appt-badge { padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; display: inline-block; }
+.hcp-complete-btn { padding: 7px 14px; background: rgba(22,101,52,0.15); border: 1px solid rgba(22,101,52,0.4); color: #16A34A; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+.hcp-appt-group-label--spaced { margin-top: 20px; }
+.hcp-appt-empty { text-align: center; padding: 60px 20px; }
+.hcp-appt-empty__icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+.hcp-appt-empty__title { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.4); margin-bottom: 8px; font-family: Cormorant Garamond, serif; }
+.hcp-appt-empty__sub { font-size: 13px; color: rgba(255,255,255,0.2); }
+.hcp-appt-card { border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
+.hcp-appt-card__row { display: flex; align-items: flex-start; gap: 12px; }
+.hcp-appt-card__date { width: 48px; flex-shrink: 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 6px 0; text-align: center; }
+.hcp-appt-card__weekday { font-size: 7px; font-weight: 700; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: .5px; }
+.hcp-appt-card__day { font-size: 22px; font-weight: 900; color: #fff; line-height: 1.1; }
+.hcp-appt-card__month { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.45); }
+.hcp-appt-card__main { flex: 1; min-width: 0; }
+.hcp-appt-card__name-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.hcp-appt-card__dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.hcp-appt-card__name { font-size: 14px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hcp-appt-card__email { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 5px; }
+.hcp-appt-card__tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.hcp-appt-card__tag { font-size: 11px; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.6); padding: 2px 8px; border-radius: 6px; }
+.hcp-appt-card__status-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.hcp-appt-card__status { font-size: 10px; color: #fff; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
+.hcp-appt-card__pay { font-size: 10px; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
+.hcp-appt-card__notes { margin-top: 10px; padding: 8px 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+.hcp-appt-card__meet { margin-top: 10px; }
+.hcp-appt-card__join { display: inline-block; padding: 9px 16px; background: rgba(26,115,232,0.18); border: 1px solid rgba(26,115,232,0.45); color: #7CB3FF; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; }
+.hcp-appt-card__join:hover { background: rgba(26,115,232,0.28); color: #fff; }
+.hcp-appt-card__join-generate { padding: 9px 16px; background: rgba(26,115,232,0.12); border: 1px solid rgba(26,115,232,0.35); color: #7CB3FF; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+.hcp-appt-card__actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.hcp-appt-card__complete { flex: 1; padding: 8px; background: rgba(22,163,74,0.15); border: 1px solid rgba(22,163,74,0.4); color: #16A34A; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+#hcp-content.hcp-content--full { width: 100%; max-width: 100%; padding: 0; margin: 0; box-sizing: border-box; }
+.hcp-score-note { font-size: 10px; color: #FF9800; margin-left: 4px; }
+.hcp-appt-status { padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.hcp-appt-status--booked { background: #DCFCE7; color: #166534; }
+.hcp-appt-status--rescheduled { background: #FEF9C3; color: #854D0E; }
+.hcp-appt-status--cancelled { background: #FEE2E2; color: #991B1B; }
+.hcp-appt-status--completed { background: #EFF6FF; color: #1E40AF; }
+.hcp-appt-status--confirmed { background: #DCFCE7; color: #166534; }
+.hcp-appt-status--pending { background: #FEF3C7; color: #92400E; }
+.hcp-appt-list { padding: 20px 16px; }
+.hcp-appt-loading { text-align: center; padding: 40px 20px; }
+.hcp-appt-loading__icon { font-size: 32px; margin-bottom: 12px; }
+.hcp-appt-loading__text { font-size: 13px; color: rgba(255,255,255,0.4); }

@@ -1,0 +1,683 @@
+{
+  "_description": "Composite bands, EVR rules, core rules, scoring formula",
+  "composite_bands": {
+    "Optimal": {
+      "min": 0,
+      "max": 5,
+      "description": "No/minimal burden — clinically healthy",
+      "icon": "🌟",
+      "action": "wellness_maintenance"
+    },
+    "Mild": {
+      "min": 6,
+      "max": 30,
+      "description": "Noticeable symptoms — lifestyle management",
+      "icon": "🌿",
+      "action": "lifestyle_support"
+    },
+    "Moderate": {
+      "min": 31,
+      "max": 55,
+      "description": "Active clinical intervention warranted",
+      "icon": "🌀",
+      "action": "clinical_intervention"
+    },
+    "Severe": {
+      "min": 56,
+      "max": 80,
+      "description": "Specialist multidisciplinary care required",
+      "icon": "⚠️",
+      "action": "specialist_referral"
+    },
+    "Critical": {
+      "min": 81,
+      "max": 100,
+      "description": "Urgent/emergency — same-day action required",
+      "icon": "🆘",
+      "action": "urgent_action"
+    }
+  },
+  "evr_rules": [
+    {
+      "id": "EVR_VM01",
+      "domain": "vasomotor",
+      "instrument": "MENQOL_vasomotor",
+      "op": ">=",
+      "threshold": 5,
+      "severity": "mild",
+      "action": "recommend_menopause_program"
+    },
+    {
+      "id": "EVR_VM02",
+      "domain": "vasomotor",
+      "instrument": "MENQOL_vasomotor",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "recommend_menopause_program"
+    },
+    {
+      "id": "EVR_VM03",
+      "domain": "vasomotor",
+      "instrument": "MENQOL_vasomotor",
+      "op": ">=",
+      "threshold": 14,
+      "severity": "moderate",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_VM04",
+      "domain": "vasomotor",
+      "instrument": "MENQOL_vasomotor",
+      "op": ">=",
+      "threshold": 17,
+      "severity": "severe",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_VM05",
+      "domain": "vasomotor",
+      "instrument": "MENQOL_vasomotor",
+      "op": ">=",
+      "threshold": 8,
+      "severity": "mild",
+      "action": "exercise_program"
+    },
+    {
+      "id": "EVR_VM06",
+      "domain": "vasomotor",
+      "instrument": "MENQOL_vasomotor",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "nutrition_guidance"
+    },
+    {
+      "id": "EVR_PH01",
+      "domain": "physical",
+      "instrument": "MENQOL_physical",
+      "op": ">=",
+      "threshold": 5,
+      "severity": "mild",
+      "action": "exercise_program"
+    },
+    {
+      "id": "EVR_PH02",
+      "domain": "physical",
+      "instrument": "MENQOL_physical",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "exercise_program"
+    },
+    {
+      "id": "EVR_PH03",
+      "domain": "physical",
+      "instrument": "MENQOL_physical",
+      "op": ">=",
+      "threshold": 12,
+      "severity": "moderate",
+      "action": "nutrition_guidance"
+    },
+    {
+      "id": "EVR_PH04",
+      "domain": "physical",
+      "instrument": "MENQOL_physical",
+      "op": ">=",
+      "threshold": 12,
+      "severity": "moderate",
+      "action": "recommend_menopause_program"
+    },
+    {
+      "id": "EVR_PH05",
+      "domain": "physical",
+      "instrument": "MENQOL_physical",
+      "op": ">=",
+      "threshold": 16,
+      "severity": "severe",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_PS01",
+      "domain": "psychosocial",
+      "instrument": "MENQOL_psychosocial",
+      "op": ">=",
+      "threshold": 5,
+      "severity": "mild",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_PS02",
+      "domain": "psychosocial",
+      "instrument": "MENQOL_psychosocial",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_PS03",
+      "domain": "psychosocial",
+      "instrument": "MENQOL_psychosocial",
+      "op": ">=",
+      "threshold": 12,
+      "severity": "moderate",
+      "action": "psychologist_referral"
+    },
+    {
+      "id": "EVR_PS04",
+      "domain": "psychosocial",
+      "instrument": "MENQOL_psychosocial",
+      "op": ">=",
+      "threshold": 16,
+      "severity": "severe",
+      "action": "psychologist_referral"
+    },
+    {
+      "id": "EVR_SX01",
+      "domain": "sexual",
+      "instrument": "MENQOL_sexual",
+      "op": ">=",
+      "threshold": 5,
+      "severity": "mild",
+      "action": "sexual_wellbeing_program"
+    },
+    {
+      "id": "EVR_SX02",
+      "domain": "sexual",
+      "instrument": "MENQOL_sexual",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "sexual_wellbeing_program"
+    },
+    {
+      "id": "EVR_SX03",
+      "domain": "sexual",
+      "instrument": "MENQOL_sexual",
+      "op": ">=",
+      "threshold": 12,
+      "severity": "moderate",
+      "action": "activate_psychosexual_module"
+    },
+    {
+      "id": "EVR_SX04",
+      "domain": "sexual",
+      "instrument": "MENQOL_sexual",
+      "op": ">=",
+      "threshold": 16,
+      "severity": "severe",
+      "action": "sexual_therapy_pathway"
+    },
+    {
+      "id": "EVR_PHQ01",
+      "domain": "depression",
+      "instrument": "PHQ9",
+      "op": ">=",
+      "threshold": 5,
+      "severity": "mild",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_PHQ02",
+      "domain": "depression",
+      "instrument": "PHQ9",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_PHQ03",
+      "domain": "depression",
+      "instrument": "PHQ9",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "psychologist_referral"
+    },
+    {
+      "id": "EVR_PHQ04",
+      "domain": "depression",
+      "instrument": "PHQ9",
+      "op": ">=",
+      "threshold": 15,
+      "severity": "severe",
+      "action": "psychologist_referral"
+    },
+    {
+      "id": "EVR_PHQ05",
+      "domain": "depression",
+      "instrument": "PHQ9",
+      "op": ">=",
+      "threshold": 15,
+      "severity": "severe",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_GAD01",
+      "domain": "anxiety",
+      "instrument": "GAD7",
+      "op": ">=",
+      "threshold": 5,
+      "severity": "mild",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_GAD02",
+      "domain": "anxiety",
+      "instrument": "GAD7",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_GAD03",
+      "domain": "anxiety",
+      "instrument": "GAD7",
+      "op": ">=",
+      "threshold": 10,
+      "severity": "moderate",
+      "action": "psychologist_referral"
+    },
+    {
+      "id": "EVR_GAD04",
+      "domain": "anxiety",
+      "instrument": "GAD7",
+      "op": ">=",
+      "threshold": 15,
+      "severity": "severe",
+      "action": "psychologist_referral"
+    },
+    {
+      "id": "EVR_PSS01",
+      "domain": "stress",
+      "instrument": "PSS8",
+      "op": ">=",
+      "threshold": 12,
+      "severity": "mild",
+      "action": "stress_management_program",
+      "evidence": "Warttig 2013 Moderate band start"
+    },
+    {
+      "id": "EVR_PSS02",
+      "domain": "stress",
+      "instrument": "PSS8",
+      "op": ">=",
+      "threshold": 21,
+      "severity": "moderate",
+      "action": "stress_management_program"
+    },
+    {
+      "id": "EVR_PSS03",
+      "domain": "stress",
+      "instrument": "PSS8",
+      "op": ">=",
+      "threshold": 21,
+      "severity": "moderate",
+      "action": "exercise_program"
+    },
+    {
+      "id": "EVR_PSS04",
+      "domain": "stress",
+      "instrument": "PSS8",
+      "op": ">=",
+      "threshold": 21,
+      "severity": "moderate",
+      "action": "nutrition_guidance"
+    },
+    {
+      "id": "EVR_PSS05",
+      "domain": "stress",
+      "instrument": "PSS8",
+      "op": ">=",
+      "threshold": 22,
+      "severity": "severe",
+      "action": "psychologist_referral",
+      "evidence": "Warttig 2013 High band start"
+    },
+    {
+      "id": "EVR_ISI01",
+      "domain": "sleep",
+      "instrument": "ISI",
+      "op": ">=",
+      "threshold": 8,
+      "severity": "mild",
+      "action": "sleep_recovery_program"
+    },
+    {
+      "id": "EVR_ISI02",
+      "domain": "sleep",
+      "instrument": "ISI",
+      "op": ">=",
+      "threshold": 15,
+      "severity": "moderate",
+      "action": "sleep_recovery_program"
+    },
+    {
+      "id": "EVR_ISI03",
+      "domain": "sleep",
+      "instrument": "ISI",
+      "op": ">=",
+      "threshold": 22,
+      "severity": "severe",
+      "action": "sleep_recovery_program"
+    },
+    {
+      "id": "EVR_ISI04",
+      "domain": "sleep",
+      "instrument": "ISI",
+      "op": ">=",
+      "threshold": 15,
+      "severity": "moderate",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_FSF01",
+      "domain": "sexual_function",
+      "instrument": "FSFI",
+      "op": "<=",
+      "threshold": 26.55,
+      "severity": "mild",
+      "action": "sexual_wellbeing_program",
+      "evidence": "Wiegel 2005 dysfunction cutoff"
+    },
+    {
+      "id": "EVR_FSF02",
+      "domain": "sexual_function",
+      "instrument": "FSFI",
+      "op": "<=",
+      "threshold": 20,
+      "severity": "moderate",
+      "action": "sexual_therapy_pathway"
+    },
+    {
+      "id": "EVR_FSF03",
+      "domain": "sexual_function",
+      "instrument": "FSFI",
+      "op": "<=",
+      "threshold": 15,
+      "severity": "severe",
+      "action": "sexual_therapy_pathway"
+    },
+    {
+      "id": "EVR_FSF04",
+      "domain": "sexual_function",
+      "instrument": "FSFI",
+      "op": "<=",
+      "threshold": 20,
+      "severity": "moderate",
+      "action": "relationship_counselling"
+    },
+    {
+      "id": "EVR_FSF05",
+      "domain": "sexual_function",
+      "instrument": "FSFI",
+      "op": "<=",
+      "threshold": 26.55,
+      "severity": "mild",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_FSD01",
+      "domain": "sexual_distress",
+      "instrument": "FSDSR",
+      "op": ">=",
+      "threshold": 11,
+      "severity": "mild",
+      "action": "sexual_wellbeing_program",
+      "evidence": "DeRogatis 2008 Mild"
+    },
+    {
+      "id": "EVR_FSD02",
+      "domain": "sexual_distress",
+      "instrument": "FSDSR",
+      "op": ">=",
+      "threshold": 20,
+      "severity": "moderate",
+      "action": "sexual_therapy_pathway",
+      "evidence": "DeRogatis 2008 Moderate"
+    },
+    {
+      "id": "EVR_FSD03",
+      "domain": "sexual_distress",
+      "instrument": "FSDSR",
+      "op": ">=",
+      "threshold": 28,
+      "severity": "severe",
+      "action": "sexual_therapy_pathway",
+      "evidence": "DeRogatis 2008 Severe"
+    },
+    {
+      "id": "EVR_FSD04",
+      "domain": "sexual_distress",
+      "instrument": "FSDSR",
+      "op": ">=",
+      "threshold": 20,
+      "severity": "moderate",
+      "action": "relationship_counselling"
+    },
+    {
+      "id": "EVR_MCS01",
+      "domain": "relationship",
+      "instrument": "MCSS",
+      "op": "<=",
+      "threshold": 8,
+      "severity": "mild",
+      "action": "relationship_counselling"
+    },
+    {
+      "id": "EVR_MCS02",
+      "domain": "relationship",
+      "instrument": "MCSS",
+      "op": "<=",
+      "threshold": 8,
+      "severity": "mild",
+      "action": "sexual_wellbeing_program"
+    },
+    {
+      "id": "EVR_MCS03",
+      "domain": "relationship",
+      "instrument": "MCSS",
+      "op": "<=",
+      "threshold": 5,
+      "severity": "moderate",
+      "action": "relationship_counselling"
+    },
+    {
+      "id": "EVR_CMP01",
+      "domain": "composite",
+      "instrument": "composite",
+      "op": ">=",
+      "threshold": 6,
+      "severity": "mild",
+      "action": "recommend_menopause_program"
+    },
+    {
+      "id": "EVR_CMP02",
+      "domain": "composite",
+      "instrument": "composite",
+      "op": ">=",
+      "threshold": 31,
+      "severity": "moderate",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_CMP03",
+      "domain": "composite",
+      "instrument": "composite",
+      "op": ">=",
+      "threshold": 56,
+      "severity": "severe",
+      "action": "gurugram_clinic"
+    },
+    {
+      "id": "EVR_CMP04",
+      "domain": "composite",
+      "instrument": "composite",
+      "op": ">=",
+      "threshold": 81,
+      "severity": "severe",
+      "action": "gurugram_clinic"
+    }
+  ],
+  "core_rules": [
+    {
+      "id": "R1",
+      "description": "Suicidal ideation (PHQ-9 item 9 > 0)",
+      "condition": "PHQ9_item9 > 0",
+      "action": "psychiatric_alert",
+      "severity": "severe",
+      "hard_stop": true
+    },
+    {
+      "id": "R2",
+      "description": "Confirmed sexual dysfunction: FSFI≤19 AND FSDSR≥11 AND sexually active",
+      "condition": "sexuallyActive AND FSFI≤19 AND FSDSR≥11",
+      "action": "sexual_therapy_pathway",
+      "severity": "moderate"
+    },
+    {
+      "id": "R3",
+      "description": "High sexual MenQOL domain — gate psychosexual module",
+      "condition": "MENQOL_sexual > 6",
+      "action": "activate_psychosexual_module",
+      "severity": "mild"
+    },
+    {
+      "id": "R4",
+      "description": "Gynaecological red flag (rf1=Yes)",
+      "condition": "rf1 === 'Yes'",
+      "action": "gynecology_referral",
+      "severity": "severe",
+      "hard_stop": true
+    },
+    {
+      "id": "R5",
+      "description": "Family history breast/ovarian cancer",
+      "condition": "fam_breast_cancer OR fam_ovarian_cancer",
+      "action": "gynecology_referral",
+      "severity": "mild"
+    },
+    {
+      "id": "R6",
+      "description": "Family history CVD",
+      "condition": "fam_cvd",
+      "action": "exercise_program",
+      "severity": "mild"
+    },
+    {
+      "id": "R7",
+      "description": "Heavy alcohol use (>7 drinks/week)",
+      "condition": "alcohol_use === 'Heavy (>7 drinks/week)'",
+      "action": "stress_management_program",
+      "severity": "moderate"
+    },
+    {
+      "id": "R8",
+      "description": "BMI > 30",
+      "condition": "BMI > 30",
+      "action": "nutrition_guidance",
+      "severity": "mild"
+    },
+    {
+      "id": "R9",
+      "description": "SSRI + PHQ9≥5 — annotate score attenuation",
+      "condition": "med_ssri AND PHQ9 >= 5",
+      "action": "psychologist_referral",
+      "severity": "mild",
+      "note": "PHQ-9 may be attenuated on SSRIs"
+    },
+    {
+      "id": "R10",
+      "description": "High sexual domain, no psychosexual module completed",
+      "condition": "MENQOL_sexual >= 14 AND NOT psychosexualCompleted",
+      "action": "sexual_therapy_pathway",
+      "severity": "moderate"
+    },
+    {
+      "id": "RF_GYNE",
+      "description": "Any gynaecological red flag (rf1/rf2/rf3)",
+      "condition": "rf1=Yes OR rf2=Frequently OR rf3=Yes",
+      "action": "gynecology_referral",
+      "severity": "severe"
+    }
+  ],
+  "composite_formula": {
+    "description": "Weighted sum of normalised domain scores, adjusted for prakriti, stage, comorbidities, wearable data, and lifestyle risk",
+    "formula": "composite = round(raw×100 + comorbidityMod×0.45 + vikritMod + wearableMod + medMod)",
+    "raw_components": {
+      "menopause_N": {
+        "weight": 0.3,
+        "normaliser": 0.47,
+        "description": "MenQOL vasomotor+physical+psychosocial+sexual, stage-adjusted"
+      },
+      "mental_N": {
+        "weight": 0.25,
+        "normaliser": 0.22,
+        "description": "PHQ9×0.45 + GAD7×0.35 + PSS8×0.20 (when PSS8 assessed)"
+      },
+      "sleep_N": {
+        "weight": 0.15,
+        "normaliser": 0.2,
+        "description": "ISI/28"
+      },
+      "sexual_N": {
+        "weight": 0.15,
+        "normaliser": 0.22,
+        "description": "FSFI+FSDSR composite, or stressN proxy if no FSFI"
+      },
+      "stress_N": {
+        "weight": 0.05,
+        "description": "PSS8/32"
+      },
+      "lifestyle_N": {
+        "weight": 0.1,
+        "description": "Wearable activity+sleep+stress score, default 0.18 if no wearable"
+      }
+    },
+    "modifiers": {
+      "comorbidityMod": {
+        "weight": 0.45,
+        "description": "Sum of comorbidity impact scores × 0.45"
+      },
+      "vikritMod": {
+        "description": "Vikriti imbalance from Prakriti baseline (range -4 to +6)"
+      },
+      "wearableMod": {
+        "description": "Sum of wearable metric abnormality scores"
+      },
+      "medMod": {
+        "description": "Medication/risk modifiers: SSRI+2, antihyp+3, insulin+4, heavy_alc+5, smoking+4, fam_cancer+2, fam_CVD+2"
+      }
+    },
+    "stage_multipliers": {
+      "Surgical Menopause": {
+        "vasomotor": 1.3,
+        "physical": 0.9,
+        "psychosocial": 1.1
+      },
+      "Post-Menopause": {
+        "vasomotor": 1.18,
+        "physical": 0.92,
+        "psychosocial": 1.05
+      },
+      "Menopause (<1yr)": {
+        "vasomotor": 1.1,
+        "physical": 0.97,
+        "psychosocial": 1.02
+      },
+      "Perimenopause": {
+        "vasomotor": 0.95,
+        "physical": 1.02,
+        "psychosocial": 0.98
+      },
+      "Normal Cycle": {
+        "vasomotor": 0.85,
+        "physical": 1.0,
+        "psychosocial": 0.95
+      }
+    }
+  }
+}

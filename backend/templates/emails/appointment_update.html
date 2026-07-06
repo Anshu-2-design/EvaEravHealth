@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:'DM Sans',Arial,sans-serif;background:#F1F5F9;margin:0;padding:24px 16px">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(15,30,60,.08)">
+
+    {% set subtitle = title %}
+    {% include "partials/email_header.html" %}
+
+    <div style="padding:28px 32px">
+
+      <div style="padding:12px 16px;border-radius:10px;font-size:13px;font-weight:700;margin-bottom:18px;
+        {% if banner_class == 'cancelled' %}background:#FEE2E2;color:#991B1B;border:1px solid #FECACA
+        {% elif banner_class == 'rescheduled' %}background:#FEF9C3;color:#854D0E;border:1px solid #FDE047
+        {% elif banner_class == 'mode_changed' %}background:#E0E7FF;color:#3730A3;border:1px solid #A5B4FC
+        {% else %}background:#F1F5F9;color:#374151;border:1px solid #E2E8F0{% endif %}">
+        {{ status_message }}
+      </div>
+
+      <p style="font-size:14px;color:#374151;margin:0 0 18px;line-height:1.65">{{ intro }}</p>
+
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:18px 20px;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px">
+          Updated Details
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <tr>
+            <td style="padding:8px 0;color:#64748B;width:42%">🩺 Consultant</td>
+            <td style="padding:8px 0;font-weight:700;color:#0F1E3C;text-align:right">{{ doctor_name }}</td>
+          </tr>
+          {{ detail_rows | safe }}
+          {{ mode_row | safe }}
+          <tr style="border-top:1px solid #EEF2F7">
+            <td style="padding:8px 0;color:#64748B">🔖 Booking ID</td>
+            <td style="padding:8px 0;font-family:monospace;font-size:11px;color:#64748B;text-align:right">{{ booking_id }}</td>
+          </tr>
+        </table>
+      </div>
+
+      {% if show_prep %}
+      {% include "partials/video_section.html" %}
+      {% endif %}
+
+      {% include "partials/email_contact_block.html" %}
+    </div>
+
+    {% with footer_text="EvaEraHealth · Gurugram Flagship Centre · Adaptive Women's Wellness", support_email=None %}
+    {% include "partials/footer.html" %}
+    {% endwith %}
+  </div>
+</body>
+</html>

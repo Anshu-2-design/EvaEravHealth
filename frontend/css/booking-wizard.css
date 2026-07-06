@@ -1,0 +1,166 @@
+/* MOVED from integration.js — patient booking wizard */
+
+.bk-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bk-mode-card {
+  border: 2px solid #E2E8F0;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+}
+.bk-mode-card.selected-online { border-color: var(--teal); background: var(--teal-lt); }
+.bk-mode-card.selected-offline { border-color: var(--purple); background: var(--purple-lt); }
+.bk-mode-card__icon { font-size: 28px; margin-bottom: 7px; }
+.bk-mode-card__title { font-size: 13px; font-weight: 700; }
+.bk-mode-card__sub { font-size: 11px; color: #64748B; margin-top: 5px; }
+
+.bk-empty-state { text-align: center; padding: 32px; color: #64748B; }
+.bk-empty-state__icon { font-size: 28px; margin-bottom: 8px; }
+
+.bk-doctor-card {
+  border: 1.5px solid #E2E8F0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  transition: 0.15s;
+}
+.bk-doctor-card.selected { border-color: var(--teal); background: var(--teal-lt); }
+.bk-doctor-card__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.bk-doctor-card__name { font-size: 13px; font-weight: 700; }
+.bk-doctor-card__meta { font-size: 11px; color: #64748B; }
+
+.bk-slot-label { font-size: 12px; color: #64748B; margin-bottom: 10px; }
+.bk-slot-day-wrap { margin-bottom: 4px; }
+.bk-slot-day {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0F1E3C;
+  margin: 10px 0 6px;
+  padding: 4px 8px;
+  background: #F8FAFC;
+  border-radius: 6px;
+}
+#int-bk-screen .bk-slot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 4px;
+}
+#int-bk-screen .bk-slot-btn {
+  padding: 8px 12px;
+  border: 1.5px solid #E2E8F0;
+  background: #fff;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.15s;
+  white-space: nowrap;
+}
+#int-bk-screen .bk-slot-btn.selected { border-color: var(--teal); background: var(--teal-lt); }
+
+.bk-order-summary {
+  background: var(--amber-lt);
+  border: 1px solid #C47A0A;
+  border-radius: 10px;
+  padding: 13px;
+  margin-bottom: 12px;
+}
+.bk-order-summary__title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.bk-order-summary__row { font-size: 12px; }
+.bk-order-summary__fee {
+  font-size: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin-top: 8px;
+  padding-top: 7px;
+}
+.bk-order-summary__fee strong { color: #C47A0A; }
+
+.bk-pay-label { font-size: 12px; color: #64748B; margin-bottom: 8px; }
+.bk-pay-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.bk-pay-card {
+  border: 1.5px solid #E2E8F0;
+  background: #fff;
+  border-radius: 9px;
+  padding: 11px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.bk-pay-card.selected { border-color: #C47A0A; background: var(--amber-lt); }
+.bk-pay-card__title { font-size: 12px; font-weight: 700; }
+.bk-pay-card__sub { font-size: 10px; color: #64748B; }
+
+.bk-pay-btn {
+  width: 100%;
+  padding: 11px;
+  background: var(--rose);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bk-confirm-wrap { text-align: center; padding: 20px 10px; }
+.bk-confirm-wrap__icon { font-size: 44px; margin-bottom: 10px; }
+.bk-confirm-wrap__title { font-size: 18px; font-weight: 800; color: #166534; margin-bottom: 5px; }
+.bk-confirm-det { text-align: left; margin: 12px 0; }
+.bk-confirm-det-grid { background: #F8FAFC; border-radius: 9px; padding: 12px; display: grid; gap: 6px; font-size: 12px; }
+.bk-confirm-det-row { display: flex; justify-content: space-between; }
+.bk-confirm-det-row__mono { font-family: monospace; font-size: 10px; }
+.bk-confirm-det-row__pending { font-size: 10px; color: #64748B; }
+.bk-confirm-det-row__paid { color: #166534; }
+.int-meet-link { color: #0B7B74; font-weight: 700; text-decoration: none; font-size: 11px; }
+.bk-confirm-notif {
+  background: var(--teal-lt);
+  border: 1px solid var(--teal);
+  border-radius: 9px;
+  padding: 11px;
+  font-size: 11px;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.bk-confirm-back {
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bk-empty-hint { font-size: 11px; }
+.adm-appt-complete-btn { margin-left: 5px; padding: 2px 7px; background: #1E40AF; color: #fff; border: none; border-radius: 5px; font-size: 10px; cursor: pointer; }
+.bk-loading__icon { font-size: 22px; margin-bottom: 8px; }

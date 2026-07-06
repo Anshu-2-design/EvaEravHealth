@@ -1,0 +1,59 @@
+/* MOVED from results.js downloadUserReport — print/download report window */
+
+.print-report-body {
+  font-family: Arial, sans-serif;
+  max-width: 640px;
+  margin: 30px auto;
+  color: #0F1E3C;
+}
+.print-report-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+}
+.print-report-body tr:nth-child(even) { background: #F8FAFC; }
+.print-report-header {
+  background: linear-gradient(135deg, #880E4F, #C2185B);
+  padding: 26px;
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+}
+.print-report-header__brand { font-size: 24px; font-weight: 800; }
+.print-report-header__date { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.print-report-score-box {
+  background: #F8FAFC;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  margin: 14px 0;
+}
+.print-report-score-box__label {
+  font-size: 11px;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+.print-report-score-box__value { font-size: 38px; font-weight: 900; color: #880E4F; }
+.print-report-score-box__band { font-size: 15px; font-weight: 700; color: #C2185B; }
+.print-report-ai-msg {
+  background: #FFF8FC;
+  border: 1.5px solid #FCE4EC;
+  border-radius: 10px;
+  padding: 14px;
+  font-style: italic;
+  font-size: 13px;
+}
+.print-report-footer {
+  font-size: 11px;
+  color: #9CA3AF;
+  margin-top: 24px;
+  border-top: 1px solid #E5E7EB;
+  padding-top: 12px;
+}
+.print-report-greeting { margin-top: 24px; }
+.print-report-score-label { padding: 7px 10px; font-size: 13px; color: #374151; }
+.print-report-score-val { padding: 7px 10px; font-size: 13px; font-weight: 700; text-align: right; }
+.print-report-triage-list { padding-left: 18px; }
+.print-report-triage-item { padding: 4px 0; font-size: 13px; color: #374151; }
+.print-report-triage-sev { font-size: 11px; color: #9CA3AF; }
+.print-report-ai-msg.is-hidden { display: none; }

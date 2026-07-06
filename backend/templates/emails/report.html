@@ -1,0 +1,26 @@
+<div style="font-family:sans-serif;max-width:520px;margin:0 auto;border-radius:14px;border:1px solid #e5e7eb;overflow:hidden">
+  <div style="background:linear-gradient(135deg,#880E4F,#C2185B);padding:26px;text-align:center">
+    <div style="font-size:24px;color:#fff;font-weight:800">🌸 EvaEraHealth</div>
+    <div style="color:rgba(255,255,255,.75);font-size:12px;margin-top:4px">Your Wellness Report</div>
+  </div>
+  <div style="padding:26px;background:#fff">
+    <p style="font-size:14px;color:#374151;margin:0 0 10px">Hello {{ name }},</p>
+    <p style="font-size:13px;color:#6B7280;margin:0 0 16px">
+      Here is a summary of your latest assessment from EvaEraHealth.
+    </p>
+    <div style="background:#F8FAFC;border-radius:10px;padding:14px 16px;text-align:center;margin-bottom:16px">
+      <div style="font-size:11px;color:#6B7280;text-transform:uppercase;letter-spacing:.5px">Composite Score</div>
+      <div style="font-size:34px;font-weight:900;color:#880E4F">{{ composite }}/100</div>
+      <div style="font-size:13px;font-weight:700;color:#C2185B">{{ band }}</div>
+    </div>
+    {{ ai_block | safe }}
+    <table style="width:100%;border-collapse:collapse;margin-bottom:14px">{{ rows_html | safe }}</table>
+    {{ recommendations_block | safe }}
+    <div style="background:#FFF8E1;border:1px solid #F9A825;border-radius:8px;padding:10px 12px;font-size:11px;color:#5D4037;margin-top:16px">
+      ⚠️ AI-assisted wellness report — not a medical diagnosis. Please consult a qualified clinician.
+    </div>
+  </div>
+  {% with footer_text="EvaEraHealth Clinic · Gurugram Flagship Center", support_email="support@evaerahealth.in", footer_link_class="email-footer-link--brand" %}
+  {% include "partials/footer.html" %}
+  {% endwith %}
+</div>

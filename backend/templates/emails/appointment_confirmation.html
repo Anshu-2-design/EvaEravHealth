@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:'DM Sans',Arial,sans-serif;background:#F1F5F9;margin:0;padding:24px 16px">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(15,30,60,.08)">
+
+    {% set subtitle = "Appointment Confirmed ✓" %}
+    {% include "partials/email_header.html" %}
+
+    <div style="padding:28px 32px">
+      <p style="font-size:16px;color:#0F1E3C;margin:0 0 4px;font-weight:700">
+        Hi {{ patient_name }} 👋
+      </p>
+      <p style="font-size:13px;color:#475569;margin:0 0 22px;line-height:1.65">
+        Thank you for choosing EvaEraHealth. Your consultation is confirmed — here is everything you need for a smooth visit.
+      </p>
+
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:18px 20px;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px">
+          Appointment Details
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <tr>
+            <td style="padding:8px 0;color:#64748B;width:38%;vertical-align:top">🩺 Consultant</td>
+            <td style="padding:8px 0;font-weight:700;color:#0F1E3C">{{ doctor_name }}</td>
+          </tr>
+          <tr style="border-top:1px solid #EEF2F7">
+            <td style="padding:8px 0;color:#64748B">📅 Date</td>
+            <td style="padding:8px 0;font-weight:700;color:#0F1E3C">{{ date }}</td>
+          </tr>
+          <tr style="border-top:1px solid #EEF2F7">
+            <td style="padding:8px 0;color:#64748B">🕐 Time</td>
+            <td style="padding:8px 0;font-weight:700;color:#0F1E3C">{{ time }} <span style="font-weight:500;color:#64748B">(IST)</span></td>
+          </tr>
+          <tr style="border-top:1px solid #EEF2F7">
+            <td style="padding:8px 0;color:#64748B">📡 Mode</td>
+            <td style="padding:8px 0;font-weight:700;color:#0F1E3C">{{ mode_label }}</td>
+          </tr>
+          <tr style="border-top:1px solid #EEF2F7">
+            <td style="padding:8px 0;color:#64748B">💰 Fee</td>
+            <td style="padding:8px 0;font-weight:700;color:#166534">Rs {{ fee }} — Paid ✓</td>
+          </tr>
+          <tr style="border-top:1px solid #EEF2F7">
+            <td style="padding:8px 0;color:#64748B">🔖 Booking ID</td>
+            <td style="padding:8px 0;font-family:monospace;font-size:11px;color:#64748B">{{ booking_id }}</td>
+          </tr>
+        </table>
+      </div>
+
+      {% include "partials/video_section.html" %}
+
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-top:4px">
+        <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px">💛 Before your visit</div>
+        <p style="font-size:11px;color:#78350F;margin:0;line-height:1.6">
+          {% if is_video %}
+          Keep this email handy for your Meet link. Your wellness assessment summary is available on your patient dashboard.
+          {% else %}
+          Wear comfortable clothing. If you have recent blood work or imaging, please bring printed or digital copies.
+          {% endif %}
+        </p>
+      </div>
+
+      {% include "partials/email_contact_block.html" %}
+    </div>
+
+    <div style="background:#0F1E3C;padding:16px 32px;text-align:center">
+      <div style="font-size:11px;color:rgba(255,255,255,.4);line-height:1.5">
+        EvaEraHealth · Gurugram Flagship Centre<br>
+        Adaptive Menopause &amp; Women's Wellness Care
+      </div>
+    </div>
+  </div>
+</body>
+</html>

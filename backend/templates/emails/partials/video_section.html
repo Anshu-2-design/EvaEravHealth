@@ -1,0 +1,29 @@
+{% if is_video and meet_link %}
+<div style="margin:20px 0;padding:18px 20px;background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:1px solid #6EE7B7;border-radius:12px;text-align:center">
+  <div style="font-size:14px;font-weight:800;color:#065F46;margin-bottom:6px">📹 Online Video Consultation</div>
+  <p style="font-size:12px;color:#047857;margin:0 0 14px;line-height:1.55">
+    Join your consultation via <strong>Google Meet</strong> at the scheduled time.<br>
+    Choose a quiet, private space with a stable internet connection.
+  </p>
+  <a href="{{ meet_link }}" style="display:inline-block;padding:12px 32px;background:#1A73E8;color:#fff;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(26,115,232,.35)">
+    🔗 Join Google Meet
+  </a>
+  <div style="font-size:11px;color:#059669;margin-top:12px;line-height:1.5">
+    Or copy this link:<br>
+    <a href="{{ meet_link }}" style="color:#1A73E8;word-break:break-all;text-decoration:none">{{ meet_link }}</a>
+  </div>
+  <div style="font-size:11px;color:#6B7280;margin-top:10px">
+    💡 Tip: Join 2–3 minutes early to test your camera and microphone.
+  </div>
+</div>
+{% elif is_video %}
+<div style="margin:20px 0;padding:16px 18px;background:#FFF7ED;border:1px solid #FDBA74;border-radius:12px;text-align:center">
+  <div style="font-size:13px;font-weight:700;color:#C2410C;margin-bottom:6px">📹 Video Consultation Scheduled</div>
+  <p style="font-size:12px;color:#9A3412;margin:0;line-height:1.55">
+    Your Google Meet link will be shared before your appointment.<br>
+    You can also find it on your patient dashboard.
+  </p>
+</div>
+{% else %}
+{% include "partials/in_person_section.html" %}
+{% endif %}

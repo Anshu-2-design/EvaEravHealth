@@ -1,0 +1,26 @@
+<div style="font-family:sans-serif;max-width:480px;margin:0 auto;border-radius:12px;border:2px solid #1E3A5F;overflow:hidden">
+  <div style="background:#131F38;padding:24px;text-align:center">
+    <div style="font-size:22px;color:#fff;font-weight:800">🔐 EvaEraHealth</div>
+    <div style="color:rgba(255,255,255,.6);font-size:12px;margin-top:4px">
+      Admin Portal — 2-Factor Authentication
+    </div>
+  </div>
+  <div style="padding:28px;background:#fff">
+    <p style="margin:0 0 8px;font-size:14px;color:#374151;font-weight:600">Admin Login OTP</p>
+    <p style="font-size:13px;color:#6B7280;margin:0 0 16px">
+      Someone (hopefully you) is signing into the EvaEraHealth Admin Portal.
+      Use this code to complete login:
+    </p>
+    <div style="background:#F0F4FF;border:2px dashed #1E3A5F;border-radius:12px;padding:20px;text-align:center;margin-bottom:16px">
+      <div style="letter-spacing:12px;font-size:40px;font-weight:900;color:#131F38;font-family:monospace">{{ otp }}</div>
+    </div>
+    <div style="background:#FFF8E1;border:1px solid #F9A825;border-radius:8px;padding:12px;font-size:12px;color:#5D4037">
+      ⚠️ <strong>This code expires in 5 minutes.</strong><br>
+      If you did not attempt to log in, your password may be compromised.
+      Contact your security team immediately.
+    </div>
+  </div>
+  {% with footer_text="EvaEraHealth Admin Portal · Do not share this code with anyone", support_email="support@evaerahealth.in", footer_link_class="email-footer-link--admin" %}
+  {% include "partials/footer.html" %}
+  {% endwith %}
+</div>

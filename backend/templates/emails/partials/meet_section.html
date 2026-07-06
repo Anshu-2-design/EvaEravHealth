@@ -1,0 +1,13 @@
+<div style="margin:16px 0;padding:14px;background:#E8F5E9;border:1px solid #66BB6A;border-radius:10px;text-align:center">
+  <div style="font-size:12px;font-weight:700;color:#2E7D32;margin-bottom:8px">{{ title or "📹 Google Meet" }}</div>
+  {% if button %}
+  <a href="{{ meet_link }}" style="display:inline-block;padding:10px 28px;background:#1A73E8;color:#fff;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none">
+    {{ button_text or "🔗 Join Google Meet" }}
+  </a>
+  {% else %}
+  <a href="{{ meet_link }}" style="color:#1A73E8;font-weight:700;text-decoration:none">{{ meet_link }}</a>
+  {% endif %}
+  {% if caption %}
+  <div style="font-size:11px;color:#388E3C;margin-top:10px">{{ caption }}</div>
+  {% endif %}
+</div>

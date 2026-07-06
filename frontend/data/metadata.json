@@ -1,0 +1,55 @@
+{
+  "_description": "Platform metadata and build manifest",
+  "metadata": {
+    "platform": "EvaEraHealth",
+    "version": "v14",
+    "description": "AI-powered adaptive menopause wellness assessment platform",
+    "portals": [
+      "Patient",
+      "HCP",
+      "Admin"
+    ],
+    "export_format": "complete_application_bundle",
+    "source_file": "EvaEraHealth_v14.html",
+    "source_sha256": "6623cd45fd9263921d210bc2736690b6b0acef528d345924784f953a50a63143",
+    "source_size_bytes": 380660,
+    "source_size_kb": 371.7,
+    "stack": "Single-file HTML5 + CSS3 + Vanilla JS + Anthropic Claude API",
+    "ai_model": "claude-sonnet-4-20250514",
+    "compliance": [
+      "DPDP Act 2023",
+      "ICD-11 severity alignment"
+    ],
+    "instruments": [
+      "Modified MenQOL (Heinemann 1996)",
+      "PHQ-9 (Kroenke & Spitzer 2001)",
+      "GAD-7 (Spitzer et al. 2006)",
+      "PSS-8 (Cohen & Williamson 1988, Warttig 2013)",
+      "ISI (Bastien et al. 2001)",
+      "FSFI (Rosen et al. 2000, Wiegel 2005)",
+      "FSDSR-13 (DeRogatis 2008)",
+      "MCSS (relationship satisfaction)",
+      "Prakriti/Vikriti constitutional assessment (Ayurveda)"
+    ],
+    "clinical_references": {
+      "PSS8_bands": "Warttig et al. 2013 — Low:0-11, Moderate:12-21, High:22-32",
+      "FSFI_cutoff": "Wiegel et al. 2005 — dysfunction ≤26.55",
+      "FSFI_domain_cutoffs": "Wiegel 2005 — Desire≤3.6, Arousal≤3.9, Lub≤4.1, Orgasm≤3.9, Sat≤3.8, Pain≤3.8",
+      "FSDSR_bands": "DeRogatis 2008 — Mild≥11, Moderate≥20, Severe≥28",
+      "composite_bands": "ICD-11 aligned — Optimal:0-5, Mild:6-30, Moderate:31-55, Severe:56-80, Critical:81-100"
+    }
+  },
+  "build_manifest": {
+    "source_file": "EvaEraHealth_v14.html",
+    "sha256": "6623cd45fd9263921d210bc2736690b6b0acef528d345924784f953a50a63143",
+    "size_bytes": 380660,
+    "size_kb": 371.7,
+    "evr_rules_count": 50,
+    "core_rules_count": 10,
+    "wearable_metrics_count": 11,
+    "comorbidity_conditions_count": 17,
+    "triage_actions_count": 13,
+    "critical_flag_definitions": 12,
+    "instruments_count": 8
+  }
+}
