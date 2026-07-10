@@ -16,7 +16,6 @@ import uuid
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-
 load_dotenv()
 
 # Config 
@@ -94,7 +93,6 @@ email_templates = Environment(
     loader=FileSystemLoader(str(EMAIL_TEMPLATE_DIR)),
     autoescape=select_autoescape(["html", "xml"]),
 )
-
 
 def render_email_template(template_name: str, **context) -> str:
     try:
@@ -679,14 +677,14 @@ class AppointmentConfirmationRequest(BaseModel):
     meet_link:     str | None = None
 
 
-# ─── ENDPOINT ──────────────────────────────────────────────
+# ─── ENDPOINT 
 
 @app.post("/send-appointment-confirmation")
 async def send_appointment_confirmation(req: AppointmentConfirmationRequest):
 
     meet_link = req.meet_link
 
-    # ── Generate Meet link if video ──
+    # ── Generate Meet link if video 
     is_video = req.mode.lower() in ("video", "online")
 
     if is_video and not meet_link:
@@ -699,7 +697,7 @@ async def send_appointment_confirmation(req: AppointmentConfirmationRequest):
             doctor_email  = req.doctor_email,
         )
 
-        # ── Patch meet_link back into Supabase ──
+        # ── Patch meet_link back into Supabase
         # Uses SUPABASE_KEY (same key your existing code uses)
         if meet_link and req.booking_id:
             await _patch_meet_link_to_supabase(req.booking_id, meet_link)
